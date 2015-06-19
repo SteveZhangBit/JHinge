@@ -1,0 +1,105 @@
+Grammar of Hinge (LL1)
+
+expression_list
+	: expression ("," expression)*
+
+expression
+	: or_test ["if" or_test "else" expression]
+
+or_test
+	: and_test or_test_more
+
+or_test_more
+	: "or" and_test or_test_more
+	| E
+
+and_test
+	: not_test and_test_more
+
+and_test_more
+	: "and" not_test and_test_more
+	| E
+
+not_test
+	: comparison
+	| "not" not_test
+
+comparison
+	: or_expr [comp_operator or_expr]
+
+comp_operator
+	: "<" | "<=" | ">" | ">=" | "!=" | "=="
+	| "in" | "not" "in"
+	| "is" ("not" | E)
+
+or_expr
+	: xor_expr or_expr_more
+
+or_expr_more
+	: "|" xor_expr or_expr_more
+	| E
+
+xor_expr
+	: and_expr xor_expr_more
+
+xor_expr_more
+	: "^" and_expr xor_expr_more
+	| E
+
+and_expr
+	: shift_expr and_expr_more
+
+and_expr_more
+	: "&" shift_expr and_expr_more
+	| E
+
+shift_expr
+	: a_expr shift_expr_more
+
+shift_expr_more
+	: "<<" a_expr shift_expr_more
+	| ">>" a_expr shift_expr_more
+	| E
+
+a_expr
+	: m_expr a_expr_more
+
+a_expr_more
+	: "+" m_expr a_expr_more
+	| "-" m_expr a_expr_more
+	| E
+
+m_expr
+	: u_expr m_expr_more
+
+m_expr_more
+	: "*" u_expr m_expr_more
+	| "/" u_expr m_expr_more
+	| "%" u_expr m_expr_more
+	| E
+
+u_expr
+	: power
+	| "-" u_expr
+	| "+" u_expr
+	| "~" u_expr
+
+power
+	: primary ["**" u_expr]
+
+primary
+	: atom primary_arg
+
+primary_arg
+	: "." Identifier
+	| "[" expression_list "]"		-> indexing
+	| "(" expression_list ")"		-> call
+	| E
+
+atom
+	: Identifier
+	| String
+	| Integer
+	| LongInteger
+	| Float
+	| "(" expression_list ")"
