@@ -4,6 +4,7 @@ import edu.bit.hinge.AST.AST;
 import edu.bit.hinge.AST.AttributeNode;
 import edu.bit.hinge.AST.BinaryExpressionNode;
 import edu.bit.hinge.AST.CallNode;
+import edu.bit.hinge.AST.CallNodeWithoutArgs;
 import edu.bit.hinge.AST.ExpressionListNode;
 import edu.bit.hinge.AST.IfElseExpressionNode;
 import edu.bit.hinge.AST.IndexingNode;
@@ -36,6 +37,9 @@ public class PrintVisitor extends Visitor {
 		}
 		else if (tree instanceof CallNode) {
 			print((CallNode)tree);
+		}
+		else if (tree instanceof CallNodeWithoutArgs) {
+			print((CallNodeWithoutArgs)tree);
 		}
 		else if (tree instanceof LongNode) {
 			System.out.print(((LongNode)tree).getValue() + "l");
@@ -96,6 +100,12 @@ public class PrintVisitor extends Visitor {
 		visit(node.getIdentifier());
 		System.out.print('(');
 		visit(node.getArguments());
+		System.out.print(')');
+	}
+	
+	private void print(CallNodeWithoutArgs node) {
+		visit(node.getIdentifier());
+		System.out.print('(');
 		System.out.print(')');
 	}
 	

@@ -1,5 +1,64 @@
 Grammar of Hinge (LL1)
 
+file_input
+	: (Newline | statement)*
+
+statement
+	: simple_stmt Newline
+	| if_stmt
+	| while_stmt
+	| for_stmt
+	| do_while_stmt
+	| funcdef
+	| classdef
+
+suite
+	: [Newline] (statement | "{" (statement | Newline)* "}")
+	
+brace_suite
+	: [Newline] "{" (statement | Newline)* "}"
+
+if_stmt
+	: "if" expression suite
+	("else" "if" expression suite)*
+	["else" suite]
+
+while_stmt
+	: "while" expression suite
+
+for_stmt
+	: "for" primary "in" expression_list suite
+	
+do_while_stmt
+	: "do" brace_suite "while" expression Newline
+
+funcdef
+	: "func" Identifier "(" [parameter_list] ")" brace_suite
+
+parameter_list
+	: defparameter ("," defparameter)*
+
+defparameter
+	: Identifier ["=" expression]
+
+classdef
+	: "class" Identifier [":" expression_list] brace_suite
+
+simple_stmt
+	: expression_list expression_stmt
+	| "return" [expression_list]
+	| "break"
+	| "continue"
+
+expression_stmt
+	: "=" expression_list		-> assignment
+	| augop expression_list		-> augmented assignment
+	| E
+
+augop
+	: "+=" | "-=" | "*=" | "/=" | "%=" | "**="
+	| ">>=" | "<<=" | "&=" | "|=" | "^="
+
 expression_list
 	: expression ("," expression)*
 
@@ -91,9 +150,9 @@ primary
 	: atom primary_arg
 
 primary_arg
-	: "." Identifier
-	| "[" expression_list "]"		-> indexing
-	| "(" expression_list ")"		-> call
+	: "." Identifier primary_arg
+	| "[" expression_list "]" primary_arg		-> indexing
+	| "(" [expression_list] ")" primary_arg		-> call
 	| E
 
 atom

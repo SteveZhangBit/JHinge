@@ -6,7 +6,9 @@ import java.util.LinkedList;
 import edu.bit.hinge.AST.AST;
 import edu.bit.hinge.AST.ArithmaticNode;
 import edu.bit.hinge.AST.AttributeNode;
+import edu.bit.hinge.AST.BoolNode;
 import edu.bit.hinge.AST.CallNode;
+import edu.bit.hinge.AST.CallNodeWithoutArgs;
 import edu.bit.hinge.AST.ComparisonNode;
 import edu.bit.hinge.AST.DoubleNode;
 import edu.bit.hinge.AST.ExpressionListNode;
@@ -19,7 +21,7 @@ import edu.bit.hinge.AST.LongNode;
 import edu.bit.hinge.AST.StringNode;
 import edu.bit.hinge.AST.UnaryNode;
 
-public class ASTBuilder {
+public class LL1ASTBuilder {
 
 	private Deque<AST> stack = new LinkedList<AST>();
 	
@@ -83,6 +85,11 @@ public class ASTBuilder {
 		stack.push(new CallNode(identifier, arguments));
 	}
 	
+	public void callNodeWithoutArgs() {
+		AST identifier = stack.pop();
+		stack.push(new CallNodeWithoutArgs(identifier));
+	}
+	
 	public void intNode(String value) {
 		stack.push(new IntNode(Integer.parseInt(value)));
 	}
@@ -102,6 +109,10 @@ public class ASTBuilder {
 	
 	public void identifierNode(String value) {
 		stack.push(new IdentifierNode(value));
+	}
+	
+	public void boolNode(boolean value) {
+		stack.push(new BoolNode(value));
 	}
 	
 }
