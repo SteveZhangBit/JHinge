@@ -5,3 +5,5 @@
 .project
 
 test.hg
+
+*.pyc

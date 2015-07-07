@@ -3,7 +3,7 @@
  * and the value that is a string. The tokens can be printed in the format '<token name, value>'.
  * 
  */
-package edu.bit.hinge;
+package edu.bit.hinge.lexer;
 
 import java.util.HashMap;
 

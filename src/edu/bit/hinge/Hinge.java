@@ -3,6 +3,8 @@ package edu.bit.hinge;
 import java.io.File;
 import java.util.Scanner;
 
+import edu.bit.hinge.lexer.Lexer;
+import edu.bit.hinge.parser.Parser;
 import edu.bit.hinge.visitor.PrintVisitor;
 
 public class Hinge {

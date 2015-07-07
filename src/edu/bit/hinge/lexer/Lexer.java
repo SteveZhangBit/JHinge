@@ -4,7 +4,7 @@
  * the parser.
  * 
  */
-package edu.bit.hinge;
+package edu.bit.hinge.lexer;
 
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -13,7 +13,7 @@ import java.io.IOException;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-import edu.bit.hinge.Token.TokenType;
+import edu.bit.hinge.lexer.Token.TokenType;
 
 /**
  * @author zhang

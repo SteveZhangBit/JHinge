@@ -1,11 +1,13 @@
 /**
  * 
  */
-package edu.bit.hinge;
+package edu.bit.hinge.parser;
 
 import edu.bit.hinge.AST.AST;
 import edu.bit.hinge.AST.builder.LL1ASTBuilder;
-import edu.bit.hinge.Token.TokenType;
+import edu.bit.hinge.lexer.Lexer;
+import edu.bit.hinge.lexer.Token;
+import edu.bit.hinge.lexer.Token.TokenType;
 
 /**
  * @author zhang

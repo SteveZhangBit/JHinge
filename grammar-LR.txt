@@ -1,0 +1,45 @@
+atom 			::= <Identifier> | literal | enclosure
+enclosure 		::= parenth_form
+literal			::= <String> | <Integer> | <LongInteger> | <Float>
+parenth_form	::= "(" expression_list ")"
+primary			::= atom | attributeref | subscription | call
+attributeref	::= primary "." <Identifier>
+subscription	::= primary "[" expression_list "]"
+call			::= primary "(" [expression_list] ")"
+power			::= primary ["**" u_expr]
+u_expr			::= power | "-" u_expr | "+" u_expr | "~" u_expr
+m_expr			::= u_expr | m_expr "*" u_expr | m_expr "/" u_expr | m_expr "%" u_expr
+a_expr			::= m_expr | a_expr "+" m_expr | a_expr "-" m_expr
+shift_expr		::= a_expr | shift_expr "<<" a_expr | shift_expr ">>" a_expr
+and_expr		::= shift_expr | and_expr "&" shift_expr
+xor_expr		::= and_expr | xor_expr "^" and_expr
+or_expr			::= xor_expr | or_expr "|" xor_expr
+comparison		::= or_expr | or_expr comp_operator or_expr
+comp_operator	::= "<" | ">" | "==" | ">=" | "<=" | "!=" | "is" ["not"] | ["not"] "in"
+or_test			::= and_test | or_test "or" and_test
+and_test		::= not_test | and_test "and" not_test
+not_test		::= comparison | "not" not_test
+expression 		::= or_test ["if" or_test "else" expression]
+expression_list	::= expression ("," expression)*
+simple_stmt		::= expression_stmt | assignment_stmt | augmented_assign_stmt | return_stmt | break_stmt | continue_stmt
+expression_stmt	::= expression_list
+assignment_stmt ::= (target_list "=")+ expression_list
+target_list		::= target ("," target)*
+target 			::= <Identifier> | "(" target_list ")" | attributeref | subscription
+augmented_assign_stmt ::= augtarget <augop> expression_list
+augtarget 		::= <Identifier> | attributeref | subscription
+augop			::= "+=" | "-=" | "*=" | "/=" | "%=" | "**=" | ">>=" | "<<=" | "&=" | "|=" | "^="
+return_stmt 	::= "return" | "return" expression_list
+break_stmt 		::= "break"
+continue_stmt 	::= "continue"
+suite			::= [<Newline>] (statement | "{" statement_list "}")
+if_stmt 		::= "if" expression suite ("else" "if" expression suite)* ["else" suite]
+while_stmt 		::= "while" expression suite
+for_stmt 		::= "for" primary "in" expression_list suite
+do_while_stmt 	::= "do" brace_suite "while" expression <Newline>
+funcdef 		::= "func" <Identifier> "(" [parameter_list] ")" brace_suite
+parameter_list	::= defparameter ("," defparameter)*
+defparameter 	::= <Identifier> ["=" expression]
+classdef 		::= "class" <Identifier> [":" expression_list] brace_suite
+statement 		::= simple_stmt <Newline> | if_stmt | while_stmt | for_stmt | do_while_stmt | funcdef | classdef
+statement_list 	::= (<Newline> | statement)*
