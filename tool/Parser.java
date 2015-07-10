@@ -1,9 +1,3 @@
-package edu.bit.hinge.parser;
-
-import edu.bit.hinge.lexer.Lexer;
-import edu.bit.hinge.lexer.Token;
-import edu.bit.hinge.lexer.Token.TokenType;
-
 public class Parser {
 
 	private Lexer input;

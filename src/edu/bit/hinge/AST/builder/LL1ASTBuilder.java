@@ -91,7 +91,24 @@ public class LL1ASTBuilder {
 	}
 	
 	public void intNode(String value) {
-		stack.push(new IntNode(Integer.parseInt(value)));
+		char[] chars = value.toCharArray();
+		if (chars[0] == '0' && chars.length > 1) {
+			// Hex
+			if (chars[1] == 'x' || chars[1] == 'X') {
+				stack.push(new IntNode(Integer.parseInt(value.substring(2), 16)));
+			}
+			// binary
+			else if (chars[1] == 'b' || chars[1] == 'B') {
+				stack.push(new IntNode(Integer.parseInt(value.substring(2), 2)));
+			}
+			// octal
+			else {
+				stack.push(new IntNode(Integer.parseInt(value.substring(1), 8)));
+			}
+		}
+		else {
+			stack.push(new IntNode(Integer.parseInt(value)));
+		}
 	}
 	
 	public void longNode(String value) {

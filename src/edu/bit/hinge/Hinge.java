@@ -20,13 +20,13 @@ public class Hinge {
 ////				System.out.println(token);
 ////			}
 //			Parser parser = new Parser(lexer);
-//			parser.expressionList();
-//			parser.getAST().visit(new PrintVisitor());
+//			parser.entry();
+////			parser.getAST().visit(new PrintVisitor());
 //		}
 //		scanner.close();
 		
 		Lexer lexer = new Lexer(new File("/Users/zhang/Documents/JavaWorkspace/JHinge/test.hg"));
 		Parser parser = new Parser(lexer);
-		parser.fileInput();
+		parser.entry();
 	}
 }

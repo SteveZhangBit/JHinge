@@ -5,7 +5,7 @@ String			r?(?:'[^']*'|"[^"]*")		'\n' can appear in strings
 												'r' represents raw string, it won't deal with the escape character
 Identifier		[a-zA-Z_]\w*
 
-Float			Exponentfloat|Pointfloat
+Float			Exponentfloat|Pointfloat	(?:\d*\.\d+|\d+\.|\d+)[eE][+-]?\d+|\d*\.\d+|\d+\.
 Pointfloat		\d*\.\d+|\d+\.
 Exponentfloat	(?:Pointfloat|\d+)[eE][+\-]?\d+
 

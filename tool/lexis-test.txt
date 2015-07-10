@@ -1,0 +1,7 @@
+?Comment	::= #.*
+Float		::= (?:\\d*\\.\\d+|\\d+\\.|\\d+)[eE][+-]?\\d+|\\d*\\.\\d+|\\d+\\.
+Integer		::= [1-9]\\d*|0[0-7]+|0[xX][0-9a-fA-F]+|0[bB][01]+|0
+Operator	::= \\+|-|\\*|/|%
+Delimiter	::= [,;]
+?Blank		::= [ \\t\\x0B\\f\\r]+
+Newline		::= \\n

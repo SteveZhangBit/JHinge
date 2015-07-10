@@ -14,23 +14,19 @@ def generate(file_name):
     grammar_file = open(file_name)
     bnf = [BNF(line) for line in grammar_file.readlines()]
     entry = bnf[-1]
-    print_bnf()
-
-    # print '\nextend.......'
-    # extend()
     # print_bnf()
 
     print '\nremove left recursion......'
     remove_all_left_recursion()
-    print_bnf()
+    # print_bnf()
 
-    # print '\nremove repeated item......'
-    # remove_repeated_item()
+    print '\nremove repeated item......'
+    remove_repeated_item()
     # print_bnf()
 
     print '\nremove unused sentence......'
     remove_unused_sentece()
-    print_bnf()
+    # print_bnf()
 
 
 class BNF:
@@ -161,6 +157,7 @@ def remove_repeated_item():
                 if bnf[i].right == bnf[j].right:
                     replace_non_terminal(bnf[j].left, bnf[i].left)
                     remove_set.add(j)
+
         if len(remove_set) != 0:
             tmp = []
             for i in range(m):

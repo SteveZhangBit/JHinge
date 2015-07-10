@@ -1,0 +1,44 @@
+statement_list 	::= (statement | <Newline>)*
+statement 		::= simple_stmt <Newline> | if_stmt | while_stmt | for_stmt | do_while_stmt | funcdef | classdef
+classdef 		::= "class" <Identifier> [":" expression_list] suite
+funcdef 		::= "func" <Identifier> "(" [parameter_list] ")" suite
+parameter_list	::= defparameter ("," defparameter)*
+defparameter 	::= <Identifier> ["=" expression]
+do_while_stmt 	::= "do" suite "while" expression <Newline>
+for_stmt 		::= "for" primary "in" expression_list suite
+while_stmt 		::= "while" expression suite
+if_stmt 		::= "if" expression suite elif_stmt
+elif_stmt 		::= "elif" expression suite elif_stmt | else_stmt
+else_stmt 		::= "else" suite |
+suite			::= [<Newline>] "{" statement_list "}"
+simple_stmt		::= expression_stmt | return_stmt | break_stmt | continue_stmt
+expression_stmt	::= expression_list (assignment_stmt | augmented_assign_stmt |)
+assignment_stmt ::= ("=" expression_list)+
+augmented_assign_stmt ::= augop expression_list
+augop			::= "+=" | "-=" | "*=" | "/=" | "%=" | "**=" | ">>=" | "<<=" | "&=" | "|=" | "^="
+continue_stmt 	::= "continue"
+break_stmt 		::= "break"
+return_stmt 	::= "return" [expression_list]
+expression_list	::= expression ("," expression)*
+expression 		::= or_test ["if" or_test "else" expression]
+or_test			::= and_test | or_test "or" and_test
+and_test		::= not_test | and_test "and" not_test
+not_test		::= comparison | "not" not_test
+comparison		::= or_expr [comp_operator or_expr]
+comp_operator	::= "<" | ">" | "==" | ">=" | "<=" | "!=" | "is" ["not"] | ["not"] "in"
+or_expr			::= xor_expr | or_expr "|" xor_expr
+xor_expr		::= and_expr | xor_expr "^" and_expr
+and_expr		::= shift_expr | and_expr "&" shift_expr
+shift_expr		::= a_expr | shift_expr "<<" a_expr | shift_expr ">>" a_expr
+a_expr			::= m_expr | a_expr "+" m_expr | a_expr "-" m_expr
+m_expr			::= u_expr | m_expr "*" u_expr | m_expr "/" u_expr | m_expr "%" u_expr
+u_expr			::= power | "-" u_expr | "+" u_expr | "~" u_expr
+power			::= primary ["**" u_expr]
+call			::= primary "(" [expression_list] ")"
+subscription	::= primary "[" expression_list "]"
+attributeref	::= primary "." <Identifier>
+primary			::= atom | attributeref | subscription | call
+atom 			::= <Identifier> | literal | enclosure
+enclosure 		::= parenth_form
+parenth_form	::= "(" expression_list ")"
+literal			::= <String> | <Integer> | <LongInteger> | <Float> | "true" | "false"
