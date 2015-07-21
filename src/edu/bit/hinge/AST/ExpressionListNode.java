@@ -1,14 +1,13 @@
 package edu.bit.hinge.AST;
 
-import java.util.LinkedList;
 import java.util.List;
 
 public class ExpressionListNode extends AST {
 
-	private List<AST> expressionList = new LinkedList<AST>();
+	private List<AST> expressionList;
 	
-	public void addChild(AST node) {
-		expressionList.add(0, node);
+	public ExpressionListNode(List<AST> expressions) {
+		this.expressionList = expressions;
 	}
 	
 	public List<AST> getExpressionList() {

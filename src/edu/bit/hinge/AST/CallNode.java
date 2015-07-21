@@ -5,6 +5,11 @@ public class CallNode extends AST {
 	private AST identifier;
 	private AST arguments;
 	
+	public CallNode(AST identifier) {
+		this.identifier = identifier;
+		this.arguments = null;
+	}
+	
 	public CallNode(AST identifier, AST arguments) {
 		this.identifier = identifier;
 		this.arguments = arguments;

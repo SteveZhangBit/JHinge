@@ -279,13 +279,13 @@ def remove_unused_sentece():
 
     tmp = {b.left: b.right for b in bnf}
     bnf_dic = {entry.left: entry.right}
-    # print entry
+    print entry
 
     def walk_through(right):
         for s in right:
             for i in s:
                 if i in tmp and i not in bnf_dic:
-                    # print i, '::=', tmp[i]
+                    print i, '::=', tmp[i]
                     bnf_dic[i] = tmp[i]
                     walk_through(bnf_dic[i])
                 elif i[0] == '<' or i[0] == '"':
@@ -338,8 +338,6 @@ def remove_left_factor():
 
         if len(tmp) == len(bnf):
             break
-
-remove_left_factor.postfix = 0
 
 
 def first_for_stat(left, statement):

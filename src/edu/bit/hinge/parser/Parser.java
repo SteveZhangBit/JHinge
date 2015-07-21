@@ -1,5 +1,7 @@
 package edu.bit.hinge.parser;
 
+import edu.bit.hinge.AST.AST;
+import edu.bit.hinge.AST.builder.ASTBuilder;
 import edu.bit.hinge.lexer.Lexer;
 import edu.bit.hinge.lexer.Token;
 import edu.bit.hinge.lexer.Token.TokenType;
@@ -10,880 +12,486 @@ public class Parser {
 	private Token lookahead;
 	private int lineCount = 1;
 	private int colTokenCount = 0;
+	
+	private ASTBuilder treeBuilder = new ASTBuilder();
 
 	public Parser(Lexer input) {
 		this.input = input;
 		this.lookahead = input.nextToken();
+	}
+	
+	public AST getAST() {
+		return treeBuilder.getAST();
 	}
 
 	public void entry() {
 		statement_list();
 	}
 
-	
-	public void _14_extend() {
-		
-		if (lookahead.value().equals("-")||lookahead.value().equals(">>")||lookahead.value().equals("+")||lookahead.value().equals("^")||lookahead.value().equals(")")||lookahead.value().equals("&=")||lookahead.value().equals("not")||lookahead.value().equals("|")||lookahead.value().equals("or")||lookahead.type().equals(TokenType.Newline)||lookahead.value().equals("%")||lookahead.value().equals(">")||lookahead.value().equals("<")||lookahead.value().equals("<<")||lookahead.value().equals("{")||lookahead.value().equals("else")||lookahead.value().equals("/")||lookahead.value().equals("|=")||lookahead.value().equals("*")||lookahead.value().equals("if")||lookahead.value().equals("==")||lookahead.value().equals("]")||lookahead.value().equals("/=")||lookahead.value().equals("and")||lookahead.value().equals("^=")||lookahead.value().equals(">>=")||lookahead.value().equals("!=")||lookahead.value().equals("&")||lookahead.value().equals("**=")||lookahead.value().equals("%=")||lookahead.value().equals("<<=")||lookahead.value().equals("+=")||lookahead.value().equals("*=")||lookahead.value().equals("in")||lookahead.value().equals("=")||lookahead.value().equals("-=")||lookahead.value().equals(">=")||lookahead.value().equals("<=")||lookahead.value().equals("is")||lookahead.value().equals(",")) {
-			
+	public void statement_list() {
+		int size = 0;
+		while (!isToken(TokenType.EOF) && !isToken("}")) {
+			if (isToken(TokenType.Newline)) {
+				match(TokenType.Newline);
+			} else {
+				statement(); size++;
+			}
 		}
-		
-		else if (lookahead.value().equals("**")) {
-			match("**"); u_expr();
-		}
-		
-		else error();
+		treeBuilder.statementListNode(size);
 	}
-	
-	public void and_test_() {
-		
-		if (lookahead.value().equals("and")) {
-			match("and"); not_test();and_test_();
+
+	public void statement() {
+		switch (lookahead.value()) {
+		case "if":
+			if_stmt();
+			break;
+
+		case "while":
+			while_stmt();
+			break;
+
+		case "for":
+			for_stmt();
+			break;
+
+		case "do":
+			do_while_stmt();
+			break;
+
+		case "func":
+			funcdef();
+			break;
+
+		case "class":
+			classdef();
+			break;
+
+		default:
+			simple_stmt(); 
+			match(TokenType.Newline);
+			break;
 		}
-		
-		else if (lookahead.value().equals("if")||lookahead.value().equals(")")||lookahead.value().equals("|=")||lookahead.value().equals("]")||lookahead.value().equals("&=")||lookahead.value().equals("/=")||lookahead.value().equals("^=")||lookahead.value().equals("or")||lookahead.value().equals("**=")||lookahead.value().equals("<<=")||lookahead.type().equals(TokenType.Newline)||lookahead.value().equals("+=")||lookahead.value().equals("*=")||lookahead.value().equals("=")||lookahead.value().equals("-=")||lookahead.value().equals("{")||lookahead.value().equals("else")||lookahead.value().equals(">>=")||lookahead.value().equals(",")||lookahead.value().equals("%=")) {
-			
-		}
-		
-		else error();
 	}
-	
-	public void _4_extend() {
-		
-		if (lookahead.value().equals("=")) {
-			match("="); expression();
+
+	public void classdef() {
+		match("class"); treeBuilder.identifierNode(lookahead.value()); match(TokenType.Identifier);
+		if (isToken(":")) {
+			match(":"); expression_list(); suite(); treeBuilder.classNode(true);
+		} else {
+			suite(); treeBuilder.classNode(false);
 		}
-		
-		else if (lookahead.value().equals(")")||lookahead.value().equals(",")) {
-			
-		}
-		
-		else error();
 	}
-	
-	public void _11_extend() {
-		
-		if (lookahead.value().equals("if")||lookahead.value().equals(")")||lookahead.value().equals(">>=")||lookahead.value().equals("]")||lookahead.value().equals("&=")||lookahead.value().equals("/=")||lookahead.value().equals("and")||lookahead.value().equals("^=")||lookahead.value().equals("or")||lookahead.value().equals("**=")||lookahead.value().equals("<<=")||lookahead.type().equals(TokenType.Newline)||lookahead.value().equals("+=")||lookahead.value().equals("*=")||lookahead.value().equals("=")||lookahead.value().equals("-=")||lookahead.value().equals("{")||lookahead.value().equals("else")||lookahead.value().equals("%=")||lookahead.value().equals(",")||lookahead.value().equals("|=")) {
-			
+
+	public void funcdef() {
+		match("func"); treeBuilder.identifierNode(lookahead.value()); match(TokenType.Identifier);
+		match("(");
+		if (isToken(TokenType.Identifier)) {
+			parameter_list(); match(")"); suite(); treeBuilder.functionNode(true);
+		} else {
+			match(")"); suite(); treeBuilder.functionNode(false);
 		}
-		
-		else if (lookahead.value().equals("==")) {
-			match("=="); or_expr();
-		}
-		
-		else if (lookahead.value().equals(">")) {
-			match(">"); or_expr();
-		}
-		
-		else if (lookahead.value().equals("<")) {
-			match("<"); or_expr();
-		}
-		
-		else if (lookahead.value().equals("not")||lookahead.value().equals("in")) {
-			_12_extend();match("in"); or_expr();
-		}
-		
-		else if (lookahead.value().equals(">=")) {
-			match(">="); or_expr();
-		}
-		
-		else if (lookahead.value().equals("is")) {
-			match("is"); _12_extend();or_expr();
-		}
-		
-		else if (lookahead.value().equals("!=")) {
-			match("!="); or_expr();
-		}
-		
-		else if (lookahead.value().equals("<=")) {
-			match("<="); or_expr();
-		}
-		
-		else error();
 	}
-	
-	public void primary() {
-		
-		if (lookahead.type().equals(TokenType.String)||lookahead.type().equals(TokenType.Identifier)||lookahead.value().equals("(")||lookahead.value().equals("false")||lookahead.type().equals(TokenType.Integer)||lookahead.type().equals(TokenType.Float)||lookahead.value().equals("true")||lookahead.type().equals(TokenType.LongInteger)) {
-			atom();primary_();
+
+	public void parameter_list() {
+		int size = 1;
+		defparameter();
+		while (isToken(",")) {
+			match(","); defparameter(); size++;
 		}
-		
-		else error();
+		treeBuilder.parameterListNode(size);
 	}
-	
-	public void not_test() {
-		
-		if (lookahead.value().equals("-")||lookahead.type().equals(TokenType.String)||lookahead.value().equals("+")||lookahead.value().equals("~")||lookahead.value().equals("(")||lookahead.value().equals("true")||lookahead.type().equals(TokenType.Float)||lookahead.type().equals(TokenType.Identifier)||lookahead.type().equals(TokenType.Integer)||lookahead.value().equals("false")||lookahead.type().equals(TokenType.LongInteger)) {
-			comparison();
-		}
-		
-		else if (lookahead.value().equals("not")) {
-			match("not"); not_test();
-		}
-		
-		else error();
-	}
-	
-	public void _12_extend() {
-		
-		if (lookahead.value().equals("-")||lookahead.type().equals(TokenType.String)||lookahead.value().equals("+")||lookahead.value().equals("~")||lookahead.value().equals("(")||lookahead.value().equals("true")||lookahead.value().equals("in")||lookahead.type().equals(TokenType.Identifier)||lookahead.type().equals(TokenType.Integer)||lookahead.value().equals("false")||lookahead.type().equals(TokenType.Float)||lookahead.type().equals(TokenType.LongInteger)) {
-			
-		}
-		
-		else if (lookahead.value().equals("not")) {
-			match("not"); 
-		}
-		
-		else error();
-	}
-	
-	public void or_expr() {
-		
-		if (lookahead.value().equals("-")||lookahead.type().equals(TokenType.String)||lookahead.value().equals("+")||lookahead.value().equals("~")||lookahead.value().equals("(")||lookahead.value().equals("true")||lookahead.type().equals(TokenType.Float)||lookahead.type().equals(TokenType.Identifier)||lookahead.type().equals(TokenType.Integer)||lookahead.value().equals("false")||lookahead.type().equals(TokenType.LongInteger)) {
-			xor_expr();or_expr_();
-		}
-		
-		else error();
-	}
-	
-	public void enclosure() {
-		
-		if (lookahead.value().equals("(")) {
-			parenth_form();
-		}
-		
-		else error();
-	}
-	
-	public void _9_extend() {
-		
-		if (lookahead.value().equals(")")||lookahead.value().equals("]")||lookahead.value().equals("&=")||lookahead.value().equals("/=")||lookahead.value().equals("^=")||lookahead.value().equals("%=")||lookahead.value().equals("**=")||lookahead.value().equals("<<=")||lookahead.type().equals(TokenType.Newline)||lookahead.value().equals("+=")||lookahead.value().equals("*=")||lookahead.value().equals("=")||lookahead.value().equals("-=")||lookahead.value().equals("{")||lookahead.value().equals(">>=")||lookahead.value().equals("|=")||lookahead.value().equals(",")) {
-			_9_extend_();
-		}
-		
-		else error();
-	}
-	
-	public void a_expr_() {
-		
-		if (lookahead.value().equals("-")) {
-			match("-"); m_expr();a_expr_();
-		}
-		
-		else if (lookahead.value().equals(">>")||lookahead.value().equals("^")||lookahead.value().equals(")")||lookahead.value().equals("&=")||lookahead.value().equals("not")||lookahead.value().equals("|")||lookahead.value().equals("or")||lookahead.type().equals(TokenType.Newline)||lookahead.value().equals(">")||lookahead.value().equals("<")||lookahead.value().equals("<<")||lookahead.value().equals("{")||lookahead.value().equals("else")||lookahead.value().equals(">>=")||lookahead.value().equals("|=")||lookahead.value().equals("if")||lookahead.value().equals("==")||lookahead.value().equals("]")||lookahead.value().equals("/=")||lookahead.value().equals("and")||lookahead.value().equals("^=")||lookahead.value().equals("%=")||lookahead.value().equals("!=")||lookahead.value().equals("&")||lookahead.value().equals("**=")||lookahead.value().equals("<<=")||lookahead.value().equals("+=")||lookahead.value().equals("*=")||lookahead.value().equals("in")||lookahead.value().equals("=")||lookahead.value().equals("-=")||lookahead.value().equals(">=")||lookahead.value().equals("<=")||lookahead.value().equals("is")||lookahead.value().equals(",")) {
-			
-		}
-		
-		else if (lookahead.value().equals("+")) {
-			match("+"); m_expr();a_expr_();
-		}
-		
-		else error();
-	}
-	
-	public void or_expr_() {
-		
-		if (lookahead.value().equals(")")||lookahead.value().equals("&=")||lookahead.value().equals("not")||lookahead.value().equals("or")||lookahead.type().equals(TokenType.Newline)||lookahead.value().equals(">")||lookahead.value().equals("<")||lookahead.value().equals("{")||lookahead.value().equals("else")||lookahead.value().equals("%=")||lookahead.value().equals("|=")||lookahead.value().equals("if")||lookahead.value().equals("**=")||lookahead.value().equals("]")||lookahead.value().equals("/=")||lookahead.value().equals("and")||lookahead.value().equals("^=")||lookahead.value().equals(">>=")||lookahead.value().equals("!=")||lookahead.value().equals("==")||lookahead.value().equals("<<=")||lookahead.value().equals("+=")||lookahead.value().equals("*=")||lookahead.value().equals("in")||lookahead.value().equals("=")||lookahead.value().equals("-=")||lookahead.value().equals(">=")||lookahead.value().equals(",")||lookahead.value().equals("is")||lookahead.value().equals("<=")) {
-			
-		}
-		
-		else if (lookahead.value().equals("|")) {
-			match("|"); xor_expr();or_expr_();
-		}
-		
-		else error();
-	}
-	
-	public void shift_expr_() {
-		
-		if (lookahead.value().equals("<<")) {
-			match("<<"); a_expr();shift_expr_();
-		}
-		
-		else if (lookahead.value().equals("^")||lookahead.value().equals(")")||lookahead.value().equals("&=")||lookahead.value().equals("not")||lookahead.value().equals("|")||lookahead.value().equals("or")||lookahead.type().equals(TokenType.Newline)||lookahead.value().equals(">")||lookahead.value().equals("<")||lookahead.value().equals("{")||lookahead.value().equals("else")||lookahead.value().equals(">>=")||lookahead.value().equals("|=")||lookahead.value().equals("if")||lookahead.value().equals("**=")||lookahead.value().equals("]")||lookahead.value().equals("/=")||lookahead.value().equals("and")||lookahead.value().equals("^=")||lookahead.value().equals("%=")||lookahead.value().equals("!=")||lookahead.value().equals("&")||lookahead.value().equals("==")||lookahead.value().equals("<<=")||lookahead.value().equals("+=")||lookahead.value().equals("*=")||lookahead.value().equals("in")||lookahead.value().equals("=")||lookahead.value().equals("-=")||lookahead.value().equals(">=")||lookahead.value().equals(",")||lookahead.value().equals("is")||lookahead.value().equals("<=")) {
-			
-		}
-		
-		else if (lookahead.value().equals(">>")) {
-			match(">>"); a_expr();shift_expr_();
-		}
-		
-		else error();
-	}
-	
-	public void _2_extend() {
-		
-		if (lookahead.value().equals(")")) {
-			
-		}
-		
-		else if (lookahead.type().equals(TokenType.Identifier)) {
-			match(TokenType.Identifier); _4_extend();_3_extend();
-		}
-		
-		else error();
-	}
-	
-	public void u_expr() {
-		
-		if (lookahead.value().equals("-")) {
-			match("-"); u_expr();
-		}
-		
-		else if (lookahead.value().equals("~")) {
-			match("~"); u_expr();
-		}
-		
-		else if (lookahead.value().equals("+")) {
-			match("+"); u_expr();
-		}
-		
-		else if (lookahead.type().equals(TokenType.String)||lookahead.type().equals(TokenType.Integer)||lookahead.value().equals("(")||lookahead.value().equals("true")||lookahead.type().equals(TokenType.Float)||lookahead.type().equals(TokenType.Identifier)||lookahead.value().equals("false")||lookahead.type().equals(TokenType.LongInteger)) {
-			power();
-		}
-		
-		else error();
-	}
-	
-	public void shift_expr() {
-		
-		if (lookahead.value().equals("-")||lookahead.type().equals(TokenType.String)||lookahead.value().equals("+")||lookahead.value().equals("~")||lookahead.value().equals("(")||lookahead.value().equals("true")||lookahead.type().equals(TokenType.Float)||lookahead.type().equals(TokenType.Identifier)||lookahead.type().equals(TokenType.Integer)||lookahead.value().equals("false")||lookahead.type().equals(TokenType.LongInteger)) {
-			a_expr();shift_expr_();
-		}
-		
-		else error();
-	}
-	
-	public void _10_extend() {
-		
-		if (lookahead.value().equals(")")||lookahead.value().equals("]")||lookahead.value().equals("&=")||lookahead.value().equals("/=")||lookahead.value().equals("^=")||lookahead.value().equals("%=")||lookahead.value().equals("**=")||lookahead.value().equals("<<=")||lookahead.type().equals(TokenType.Newline)||lookahead.value().equals("+=")||lookahead.value().equals("*=")||lookahead.value().equals("=")||lookahead.value().equals("-=")||lookahead.value().equals("{")||lookahead.value().equals(">>=")||lookahead.value().equals("|=")||lookahead.value().equals(",")) {
-			
-		}
-		
-		else if (lookahead.value().equals("if")) {
-			match("if"); or_test();match("else"); expression();
-		}
-		
-		else error();
-	}
-	
-	public void _3_extend() {
-		
-		if (lookahead.value().equals(")")||lookahead.value().equals(",")) {
-			_3_extend_();
-		}
-		
-		else error();
-	}
-	
-	public void else_stmt() {
-		
-		if (lookahead.value().equals("-")||lookahead.type().equals(TokenType.String)||lookahead.value().equals("+")||lookahead.value().equals("if")||lookahead.value().equals("(")||lookahead.type().equals(TokenType.EOF)||lookahead.value().equals("true")||lookahead.type().equals(TokenType.LongInteger)||lookahead.value().equals("not")||lookahead.type().equals(TokenType.Identifier)||lookahead.value().equals("continue")||lookahead.value().equals("false")||lookahead.value().equals("for")||lookahead.type().equals(TokenType.Float)||lookahead.value().equals("return")||lookahead.value().equals("while")||lookahead.type().equals(TokenType.Newline)||lookahead.type().equals(TokenType.Integer)||lookahead.value().equals("do")||lookahead.value().equals("}")||lookahead.value().equals("class")||lookahead.value().equals("func")||lookahead.value().equals("~")||lookahead.value().equals("break")) {
-			
-		}
-		
-		else if (lookahead.value().equals("else")) {
-			match("else"); suite();
-		}
-		
-		else error();
-	}
-	
-	public void _17_extend() {
-		
-		if (lookahead.value().equals(",")) {
-			match(","); defparameter();
-		}
-		
-		else error();
-	}
-	
-	public void parenth_form() {
-		
-		if (lookahead.value().equals("(")) {
-			match("("); expression_list();match(")"); 
-		}
-		
-		else error();
-	}
-	
-	public void literal() {
-		
-		if (lookahead.type().equals(TokenType.String)) {
-			match(TokenType.String); 
-		}
-		
-		else if (lookahead.type().equals(TokenType.Integer)) {
-			match(TokenType.Integer); 
-		}
-		
-		else if (lookahead.value().equals("true")) {
-			match("true"); 
-		}
-		
-		else if (lookahead.type().equals(TokenType.Float)) {
-			match(TokenType.Float); 
-		}
-		
-		else if (lookahead.value().equals("false")) {
-			match("false"); 
-		}
-		
-		else if (lookahead.type().equals(TokenType.LongInteger)) {
-			match(TokenType.LongInteger); 
-		}
-		
-		else error();
-	}
-	
-	public void and_expr_() {
-		
-		if (lookahead.value().equals("^")||lookahead.value().equals(")")||lookahead.value().equals("&=")||lookahead.value().equals("not")||lookahead.value().equals("|")||lookahead.value().equals("or")||lookahead.type().equals(TokenType.Newline)||lookahead.value().equals(">")||lookahead.value().equals("<")||lookahead.value().equals("{")||lookahead.value().equals("else")||lookahead.value().equals(">>=")||lookahead.value().equals("|=")||lookahead.value().equals("if")||lookahead.value().equals("**=")||lookahead.value().equals("]")||lookahead.value().equals("/=")||lookahead.value().equals("and")||lookahead.value().equals("^=")||lookahead.value().equals("%=")||lookahead.value().equals("!=")||lookahead.value().equals("==")||lookahead.value().equals("<<=")||lookahead.value().equals("+=")||lookahead.value().equals("*=")||lookahead.value().equals("in")||lookahead.value().equals("=")||lookahead.value().equals("-=")||lookahead.value().equals(">=")||lookahead.value().equals(",")||lookahead.value().equals("is")||lookahead.value().equals("<=")) {
-			
-		}
-		
-		else if (lookahead.value().equals("&")) {
-			match("&"); shift_expr();and_expr_();
-		}
-		
-		else error();
-	}
-	
+
 	public void defparameter() {
-		
-		if (lookahead.type().equals(TokenType.Identifier)) {
-			match(TokenType.Identifier); _4_extend();
+		treeBuilder.identifierNode(lookahead.value()); match(TokenType.Identifier);
+		if (isToken("=")) {
+			match("="); expression(); treeBuilder.defParameterNode(true);
+		} else {
+			treeBuilder.defParameterNode(false);
 		}
-		
-		else error();
 	}
-	
-	public void _8_extend() {
-		
-		if (lookahead.value().equals("-")) {
-			match("-"); u_expr();m_expr_();a_expr_();shift_expr_();and_expr_();xor_expr_();or_expr_();_11_extend();and_test_();or_test_();_10_extend();_9_extend();
-		}
-		
-		else if (lookahead.value().equals(")")||lookahead.type().equals(TokenType.Newline)) {
-			
-		}
-		
-		else if (lookahead.type().equals(TokenType.String)) {
-			match(TokenType.String); primary_();_14_extend();m_expr_();a_expr_();shift_expr_();and_expr_();xor_expr_();or_expr_();_11_extend();and_test_();or_test_();_10_extend();_9_extend();
-		}
-		
-		else if (lookahead.value().equals("+")) {
-			match("+"); u_expr();m_expr_();a_expr_();shift_expr_();and_expr_();xor_expr_();or_expr_();_11_extend();and_test_();or_test_();_10_extend();_9_extend();
-		}
-		
-		else if (lookahead.type().equals(TokenType.Integer)) {
-			match(TokenType.Integer); primary_();_14_extend();m_expr_();a_expr_();shift_expr_();and_expr_();xor_expr_();or_expr_();_11_extend();and_test_();or_test_();_10_extend();_9_extend();
-		}
-		
-		else if (lookahead.value().equals("(")) {
-			match("("); expression_list();match(")"); primary_();_14_extend();m_expr_();a_expr_();shift_expr_();and_expr_();xor_expr_();or_expr_();_11_extend();and_test_();or_test_();_10_extend();_9_extend();
-		}
-		
-		else if (lookahead.value().equals("true")) {
-			match("true"); primary_();_14_extend();m_expr_();a_expr_();shift_expr_();and_expr_();xor_expr_();or_expr_();_11_extend();and_test_();or_test_();_10_extend();_9_extend();
-		}
-		
-		else if (lookahead.type().equals(TokenType.Float)) {
-			match(TokenType.Float); primary_();_14_extend();m_expr_();a_expr_();shift_expr_();and_expr_();xor_expr_();or_expr_();_11_extend();and_test_();or_test_();_10_extend();_9_extend();
-		}
-		
-		else if (lookahead.value().equals("not")) {
-			match("not"); not_test();and_test_();or_test_();_10_extend();_9_extend();
-		}
-		
-		else if (lookahead.type().equals(TokenType.Identifier)) {
-			match(TokenType.Identifier); primary_();_14_extend();m_expr_();a_expr_();shift_expr_();and_expr_();xor_expr_();or_expr_();_11_extend();and_test_();or_test_();_10_extend();_9_extend();
-		}
-		
-		else if (lookahead.value().equals("~")) {
-			match("~"); u_expr();m_expr_();a_expr_();shift_expr_();and_expr_();xor_expr_();or_expr_();_11_extend();and_test_();or_test_();_10_extend();_9_extend();
-		}
-		
-		else if (lookahead.value().equals("false")) {
-			match("false"); primary_();_14_extend();m_expr_();a_expr_();shift_expr_();and_expr_();xor_expr_();or_expr_();_11_extend();and_test_();or_test_();_10_extend();_9_extend();
-		}
-		
-		else if (lookahead.type().equals(TokenType.LongInteger)) {
-			match(TokenType.LongInteger); primary_();_14_extend();m_expr_();a_expr_();shift_expr_();and_expr_();xor_expr_();or_expr_();_11_extend();and_test_();or_test_();_10_extend();_9_extend();
-		}
-		
-		else error();
+
+	public void do_while_stmt() {
+		match("do"); suite(); match("while"); expression(); match(TokenType.Newline);
+		treeBuilder.doWhileNode();
 	}
-	
-	public void _5_extend() {
-		
-		if (lookahead.value().equals("{")) {
-			
-		}
-		
-		else if (lookahead.type().equals(TokenType.Newline)) {
-			match(TokenType.Newline); 
-		}
-		
-		else error();
+
+	public void for_stmt() {
+		match("for"); primary(); match("in"); expression_list(); suite();
+		treeBuilder.forStatementNode();
 	}
-	
-	public void and_expr() {
-		
-		if (lookahead.value().equals("-")||lookahead.type().equals(TokenType.String)||lookahead.value().equals("+")||lookahead.value().equals("~")||lookahead.value().equals("(")||lookahead.value().equals("true")||lookahead.type().equals(TokenType.Float)||lookahead.type().equals(TokenType.Identifier)||lookahead.type().equals(TokenType.Integer)||lookahead.value().equals("false")||lookahead.type().equals(TokenType.LongInteger)) {
-			shift_expr();and_expr_();
-		}
-		
-		else error();
+
+	public void while_stmt() {
+		match("while"); expression(); suite(); treeBuilder.whileStatementNode();
 	}
-	
-	public void power() {
-		
-		if (lookahead.type().equals(TokenType.String)||lookahead.type().equals(TokenType.Integer)||lookahead.value().equals("(")||lookahead.value().equals("true")||lookahead.type().equals(TokenType.Float)||lookahead.type().equals(TokenType.Identifier)||lookahead.value().equals("false")||lookahead.type().equals(TokenType.LongInteger)) {
-			primary();_14_extend();
+
+	public void if_stmt() {
+		match("if"); expression(); suite();
+		if (isToken("elif") || isToken("else")) {
+			elif_stmt(); treeBuilder.ifStatementNode(true);
+		} else {
+			treeBuilder.ifStatementNode(false);
 		}
-		
-		else error();
 	}
-	
-	public void a_expr() {
-		
-		if (lookahead.value().equals("-")||lookahead.type().equals(TokenType.String)||lookahead.value().equals("+")||lookahead.value().equals("~")||lookahead.value().equals("(")||lookahead.value().equals("true")||lookahead.type().equals(TokenType.Float)||lookahead.type().equals(TokenType.Identifier)||lookahead.type().equals(TokenType.Integer)||lookahead.value().equals("false")||lookahead.type().equals(TokenType.LongInteger)) {
-			m_expr();a_expr_();
-		}
-		
-		else error();
-	}
-	
-	public void primary_() {
-		
-		if (lookahead.value().equals("-")||lookahead.value().equals(">>")||lookahead.value().equals("+")||lookahead.value().equals("^")||lookahead.value().equals(")")||lookahead.value().equals("&=")||lookahead.value().equals("not")||lookahead.value().equals("in")||lookahead.value().equals("or")||lookahead.type().equals(TokenType.Newline)||lookahead.value().equals("%")||lookahead.value().equals(">")||lookahead.value().equals("<")||lookahead.value().equals("<<")||lookahead.value().equals("{")||lookahead.value().equals("else")||lookahead.value().equals("/")||lookahead.value().equals("|=")||lookahead.value().equals("*")||lookahead.value().equals("if")||lookahead.value().equals("**")||lookahead.value().equals("**=")||lookahead.value().equals("]")||lookahead.value().equals("/=")||lookahead.value().equals("and")||lookahead.value().equals("^=")||lookahead.value().equals(">>=")||lookahead.value().equals("!=")||lookahead.value().equals("&")||lookahead.value().equals("==")||lookahead.value().equals("%=")||lookahead.value().equals("<<=")||lookahead.value().equals("+=")||lookahead.value().equals("*=")||lookahead.value().equals("|")||lookahead.value().equals("=")||lookahead.value().equals("-=")||lookahead.value().equals(">=")||lookahead.value().equals(",")||lookahead.value().equals("is")||lookahead.value().equals("<=")) {
-			
-		}
-		
-		else if (lookahead.value().equals(".")) {
-			match("."); match(TokenType.Identifier); primary_();
-		}
-		
-		else if (lookahead.value().equals("(")) {
-			match("("); _8_extend();match(")"); primary_();
-		}
-		
-		else if (lookahead.value().equals("[")) {
-			match("["); expression_list();match("]"); primary_();
-		}
-		
-		else error();
-	}
-	
-	public void _3_extend_() {
-		
-		if (lookahead.value().equals(",")) {
-			_17_extend();_3_extend_();
-		}
-		
-		else if (lookahead.value().equals(")")) {
-			
-		}
-		
-		else error();
-	}
-	
-	public void _16_extend() {
-		
-		if (lookahead.value().equals("-")) {
-			match("-"); u_expr();m_expr_();a_expr_();shift_expr_();and_expr_();xor_expr_();or_expr_();_11_extend();and_test_();or_test_();_10_extend();_9_extend();_6_extend();match(TokenType.Newline); 
-		}
-		
-		else if (lookahead.type().equals(TokenType.String)) {
-			match(TokenType.String); primary_();_14_extend();m_expr_();a_expr_();shift_expr_();and_expr_();xor_expr_();or_expr_();_11_extend();and_test_();or_test_();_10_extend();_9_extend();_6_extend();match(TokenType.Newline); 
-		}
-		
-		else if (lookahead.value().equals("+")) {
-			match("+"); u_expr();m_expr_();a_expr_();shift_expr_();and_expr_();xor_expr_();or_expr_();_11_extend();and_test_();or_test_();_10_extend();_9_extend();_6_extend();match(TokenType.Newline); 
-		}
-		
-		else if (lookahead.value().equals("true")) {
-			match("true"); primary_();_14_extend();m_expr_();a_expr_();shift_expr_();and_expr_();xor_expr_();or_expr_();_11_extend();and_test_();or_test_();_10_extend();_9_extend();_6_extend();match(TokenType.Newline); 
-		}
-		
-		else if (lookahead.type().equals(TokenType.LongInteger)) {
-			match(TokenType.LongInteger); primary_();_14_extend();m_expr_();a_expr_();shift_expr_();and_expr_();xor_expr_();or_expr_();_11_extend();and_test_();or_test_();_10_extend();_9_extend();_6_extend();match(TokenType.Newline); 
-		}
-		
-		else if (lookahead.value().equals("not")) {
-			match("not"); not_test();and_test_();or_test_();_10_extend();_9_extend();_6_extend();match(TokenType.Newline); 
-		}
-		
-		else if (lookahead.value().equals("for")) {
-			match("for"); primary();match("in"); expression_list();suite();
-		}
-		
-		else if (lookahead.type().equals(TokenType.Newline)) {
-			match(TokenType.Newline); 
-		}
-		
-		else if (lookahead.type().equals(TokenType.Integer)) {
-			match(TokenType.Integer); primary_();_14_extend();m_expr_();a_expr_();shift_expr_();and_expr_();xor_expr_();or_expr_();_11_extend();and_test_();or_test_();_10_extend();_9_extend();_6_extend();match(TokenType.Newline); 
-		}
-		
-		else if (lookahead.value().equals("class")) {
-			match("class"); match(TokenType.Identifier); _1_extend();suite();
-		}
-		
-		else if (lookahead.value().equals("break")) {
-			match("break"); match(TokenType.Newline); 
-		}
-		
-		else if (lookahead.value().equals("if")) {
-			match("if"); expression();suite();elif_stmt();
-		}
-		
-		else if (lookahead.value().equals("(")) {
-			match("("); expression_list();match(")"); primary_();_14_extend();m_expr_();a_expr_();shift_expr_();and_expr_();xor_expr_();or_expr_();_11_extend();and_test_();or_test_();_10_extend();_9_extend();_6_extend();match(TokenType.Newline); 
-		}
-		
-		else if (lookahead.type().equals(TokenType.Float)) {
-			match(TokenType.Float); primary_();_14_extend();m_expr_();a_expr_();shift_expr_();and_expr_();xor_expr_();or_expr_();_11_extend();and_test_();or_test_();_10_extend();_9_extend();_6_extend();match(TokenType.Newline); 
-		}
-		
-		else if (lookahead.type().equals(TokenType.Identifier)) {
-			match(TokenType.Identifier); primary_();_14_extend();m_expr_();a_expr_();shift_expr_();and_expr_();xor_expr_();or_expr_();_11_extend();and_test_();or_test_();_10_extend();_9_extend();_6_extend();match(TokenType.Newline); 
-		}
-		
-		else if (lookahead.value().equals("continue")) {
-			match("continue"); match(TokenType.Newline); 
-		}
-		
-		else if (lookahead.value().equals("false")) {
-			match("false"); primary_();_14_extend();m_expr_();a_expr_();shift_expr_();and_expr_();xor_expr_();or_expr_();_11_extend();and_test_();or_test_();_10_extend();_9_extend();_6_extend();match(TokenType.Newline); 
-		}
-		
-		else if (lookahead.value().equals("return")) {
-			match("return"); _8_extend();match(TokenType.Newline); 
-		}
-		
-		else if (lookahead.value().equals("do")) {
-			match("do"); suite();match("while"); expression();match(TokenType.Newline); 
-		}
-		
-		else if (lookahead.value().equals("while")) {
-			match("while"); expression();suite();
-		}
-		
-		else if (lookahead.value().equals("~")) {
-			match("~"); u_expr();m_expr_();a_expr_();shift_expr_();and_expr_();xor_expr_();or_expr_();_11_extend();and_test_();or_test_();_10_extend();_9_extend();_6_extend();match(TokenType.Newline); 
-		}
-		
-		else if (lookahead.value().equals("func")) {
-			match("func"); match(TokenType.Identifier); match("("); _2_extend();match(")"); suite();
-		}
-		
-		else error();
-	}
-	
+
 	public void elif_stmt() {
-		
-		if (lookahead.value().equals("elif")) {
-			match("elif"); expression();suite();elif_stmt();
-		}
-		
-		else if (lookahead.value().equals("-")||lookahead.type().equals(TokenType.String)||lookahead.value().equals("+")||lookahead.value().equals("if")||lookahead.value().equals("~")||lookahead.value().equals("(")||lookahead.type().equals(TokenType.EOF)||lookahead.value().equals("true")||lookahead.type().equals(TokenType.LongInteger)||lookahead.value().equals("not")||lookahead.type().equals(TokenType.Identifier)||lookahead.value().equals("continue")||lookahead.value().equals("false")||lookahead.value().equals("for")||lookahead.type().equals(TokenType.Float)||lookahead.value().equals("return")||lookahead.value().equals("while")||lookahead.type().equals(TokenType.Newline)||lookahead.type().equals(TokenType.Integer)||lookahead.value().equals("do")||lookahead.value().equals("}")||lookahead.value().equals("class")||lookahead.value().equals("func")||lookahead.value().equals("else")||lookahead.value().equals("break")) {
+		if (isToken("elif")) {
+			match("elif"); expression(); suite();
+			if (isToken("elif") || isToken("else")) {
+				elif_stmt(); treeBuilder.ifStatementNode(true);
+			} else {
+				treeBuilder.ifStatementNode(false);
+			}
+		} else {
 			else_stmt();
 		}
-		
-		else error();
 	}
-	
-	public void and_test() {
-		
-		if (lookahead.value().equals("-")||lookahead.type().equals(TokenType.String)||lookahead.value().equals("+")||lookahead.value().equals("~")||lookahead.value().equals("(")||lookahead.value().equals("true")||lookahead.type().equals(TokenType.Float)||lookahead.value().equals("not")||lookahead.type().equals(TokenType.Identifier)||lookahead.type().equals(TokenType.Integer)||lookahead.value().equals("false")||lookahead.type().equals(TokenType.LongInteger)) {
-			not_test();and_test_();
+
+	public void else_stmt() {
+		if (isToken("else")) {
+			match("else"); suite();
 		}
-		
-		else error();
 	}
-	
-	public void _9_extend_() {
-		
-		if (lookahead.value().equals(")")||lookahead.value().equals("]")||lookahead.value().equals("&=")||lookahead.value().equals("/=")||lookahead.value().equals("^=")||lookahead.value().equals("%=")||lookahead.value().equals("**=")||lookahead.value().equals("<<=")||lookahead.type().equals(TokenType.Newline)||lookahead.value().equals("+=")||lookahead.value().equals("*=")||lookahead.value().equals("=")||lookahead.value().equals("-=")||lookahead.value().equals("{")||lookahead.value().equals(">>=")||lookahead.value().equals("|=")) {
-			
-		}
-		
-		else if (lookahead.value().equals(",")) {
-			_20_extend();_9_extend_();
-		}
-		
-		else error();
-	}
-	
-	public void _0_extend() {
-		
-		if (lookahead.value().equals("-")||lookahead.type().equals(TokenType.String)||lookahead.value().equals("+")||lookahead.value().equals("if")||lookahead.value().equals("(")||lookahead.type().equals(TokenType.EOF)||lookahead.value().equals("true")||lookahead.type().equals(TokenType.LongInteger)||lookahead.value().equals("not")||lookahead.type().equals(TokenType.Identifier)||lookahead.value().equals("continue")||lookahead.value().equals("false")||lookahead.value().equals("for")||lookahead.type().equals(TokenType.Float)||lookahead.value().equals("return")||lookahead.value().equals("while")||lookahead.type().equals(TokenType.Newline)||lookahead.type().equals(TokenType.Integer)||lookahead.value().equals("do")||lookahead.value().equals("}")||lookahead.value().equals("class")||lookahead.value().equals("func")||lookahead.value().equals("~")||lookahead.value().equals("break")) {
-			_0_extend_();
-		}
-		
-		else error();
-	}
-	
-	public void m_expr() {
-		
-		if (lookahead.value().equals("-")||lookahead.type().equals(TokenType.String)||lookahead.value().equals("+")||lookahead.value().equals("~")||lookahead.value().equals("(")||lookahead.value().equals("true")||lookahead.type().equals(TokenType.Float)||lookahead.type().equals(TokenType.Identifier)||lookahead.type().equals(TokenType.Integer)||lookahead.value().equals("false")||lookahead.type().equals(TokenType.LongInteger)) {
-			u_expr();m_expr_();
-		}
-		
-		else error();
-	}
-	
-	public void _1_extend() {
-		
-		if (lookahead.value().equals("{")||lookahead.type().equals(TokenType.Newline)) {
-			
-		}
-		
-		else if (lookahead.value().equals(":")) {
-			match(":"); expression_list();
-		}
-		
-		else error();
-	}
-	
-	public void atom() {
-		
-		if (lookahead.type().equals(TokenType.String)||lookahead.value().equals("false")||lookahead.type().equals(TokenType.Integer)||lookahead.type().equals(TokenType.LongInteger)||lookahead.value().equals("true")||lookahead.type().equals(TokenType.Float)) {
-			literal();
-		}
-		
-		else if (lookahead.type().equals(TokenType.Identifier)) {
-			match(TokenType.Identifier); 
-		}
-		
-		else if (lookahead.value().equals("(")) {
-			enclosure();
-		}
-		
-		else error();
-	}
-	
-	public void xor_expr() {
-		
-		if (lookahead.value().equals("-")||lookahead.type().equals(TokenType.String)||lookahead.value().equals("+")||lookahead.value().equals("~")||lookahead.value().equals("(")||lookahead.value().equals("true")||lookahead.type().equals(TokenType.Float)||lookahead.type().equals(TokenType.Identifier)||lookahead.type().equals(TokenType.Integer)||lookahead.value().equals("false")||lookahead.type().equals(TokenType.LongInteger)) {
-			and_expr();xor_expr_();
-		}
-		
-		else error();
-	}
-	
-	public void _0_extend_() {
-		
-		if (lookahead.value().equals("}")||lookahead.type().equals(TokenType.EOF)) {
-			
-		}
-		
-		else if (lookahead.value().equals("-")||lookahead.type().equals(TokenType.String)||lookahead.value().equals("+")||lookahead.value().equals("if")||lookahead.value().equals("(")||lookahead.value().equals("true")||lookahead.type().equals(TokenType.LongInteger)||lookahead.value().equals("not")||lookahead.type().equals(TokenType.Identifier)||lookahead.value().equals("continue")||lookahead.value().equals("false")||lookahead.value().equals("for")||lookahead.type().equals(TokenType.Float)||lookahead.value().equals("return")||lookahead.value().equals("while")||lookahead.type().equals(TokenType.Newline)||lookahead.type().equals(TokenType.Integer)||lookahead.value().equals("do")||lookahead.value().equals("class")||lookahead.value().equals("func")||lookahead.value().equals("~")||lookahead.value().equals("break")) {
-			_16_extend();_0_extend_();
-		}
-		
-		else error();
-	}
-	
-	public void comparison() {
-		
-		if (lookahead.value().equals("-")||lookahead.type().equals(TokenType.String)||lookahead.value().equals("+")||lookahead.value().equals("~")||lookahead.value().equals("(")||lookahead.value().equals("true")||lookahead.type().equals(TokenType.Float)||lookahead.type().equals(TokenType.Identifier)||lookahead.type().equals(TokenType.Integer)||lookahead.value().equals("false")||lookahead.type().equals(TokenType.LongInteger)) {
-			or_expr();_11_extend();
-		}
-		
-		else error();
-	}
-	
-	public void _20_extend() {
-		
-		if (lookahead.value().equals(",")) {
-			match(","); expression();
-		}
-		
-		else error();
-	}
-	
-	public void _18_extend() {
-		
-		if (lookahead.value().equals("=")) {
-			match("="); expression_list();
-		}
-		
-		else error();
-	}
-	
-	public void m_expr_() {
-		
-		if (lookahead.value().equals("%")) {
-			match("%"); u_expr();m_expr_();
-		}
-		
-		else if (lookahead.value().equals("-")||lookahead.value().equals(">>")||lookahead.value().equals("+")||lookahead.value().equals("^")||lookahead.value().equals(")")||lookahead.value().equals("&=")||lookahead.value().equals("not")||lookahead.value().equals("in")||lookahead.value().equals("or")||lookahead.type().equals(TokenType.Newline)||lookahead.value().equals(">")||lookahead.value().equals("<")||lookahead.value().equals("<<")||lookahead.value().equals("{")||lookahead.value().equals("else")||lookahead.value().equals(">>=")||lookahead.value().equals("|=")||lookahead.value().equals("if")||lookahead.value().equals("**=")||lookahead.value().equals("]")||lookahead.value().equals("/=")||lookahead.value().equals("and")||lookahead.value().equals("^=")||lookahead.value().equals("%=")||lookahead.value().equals("!=")||lookahead.value().equals("&")||lookahead.value().equals("==")||lookahead.value().equals("<<=")||lookahead.value().equals("+=")||lookahead.value().equals("*=")||lookahead.value().equals("|")||lookahead.value().equals("=")||lookahead.value().equals("-=")||lookahead.value().equals(">=")||lookahead.value().equals(",")||lookahead.value().equals("is")||lookahead.value().equals("<=")) {
-			
-		}
-		
-		else if (lookahead.value().equals("/")) {
-			match("/"); u_expr();m_expr_();
-		}
-		
-		else if (lookahead.value().equals("*")) {
-			match("*"); u_expr();m_expr_();
-		}
-		
-		else error();
-	}
-	
-	public void or_test_() {
-		
-		if (lookahead.value().equals("if")||lookahead.value().equals(")")||lookahead.value().equals("]")||lookahead.value().equals("&=")||lookahead.value().equals("/=")||lookahead.value().equals("^=")||lookahead.value().equals(">>=")||lookahead.value().equals("**=")||lookahead.value().equals("<<=")||lookahead.type().equals(TokenType.Newline)||lookahead.value().equals("+=")||lookahead.value().equals("*=")||lookahead.value().equals("=")||lookahead.value().equals("-=")||lookahead.value().equals("{")||lookahead.value().equals("else")||lookahead.value().equals("%=")||lookahead.value().equals(",")||lookahead.value().equals("|=")) {
-			
-		}
-		
-		else if (lookahead.value().equals("or")) {
-			match("or"); and_test();or_test_();
-		}
-		
-		else error();
-	}
-	
-	public void expression_list() {
-		
-		if (lookahead.value().equals("-")||lookahead.type().equals(TokenType.String)||lookahead.value().equals("+")||lookahead.value().equals("~")||lookahead.value().equals("(")||lookahead.value().equals("true")||lookahead.type().equals(TokenType.Float)||lookahead.value().equals("not")||lookahead.type().equals(TokenType.Identifier)||lookahead.type().equals(TokenType.Integer)||lookahead.value().equals("false")||lookahead.type().equals(TokenType.LongInteger)) {
-			expression();_9_extend();
-		}
-		
-		else error();
-	}
-	
-	public void or_test() {
-		
-		if (lookahead.value().equals("-")||lookahead.type().equals(TokenType.String)||lookahead.value().equals("+")||lookahead.value().equals("~")||lookahead.value().equals("(")||lookahead.value().equals("true")||lookahead.type().equals(TokenType.Float)||lookahead.value().equals("not")||lookahead.type().equals(TokenType.Identifier)||lookahead.type().equals(TokenType.Integer)||lookahead.value().equals("false")||lookahead.type().equals(TokenType.LongInteger)) {
-			and_test();or_test_();
-		}
-		
-		else error();
-	}
-	
-	public void _6_extend() {
-		
-		if (lookahead.type().equals(TokenType.Newline)) {
-			
-		}
-		
-		else if (lookahead.value().equals("**=")) {
-			match("**="); expression_list();
-		}
-		
-		else if (lookahead.value().equals("<<=")) {
-			match("<<="); expression_list();
-		}
-		
-		else if (lookahead.value().equals("+=")) {
-			match("+="); expression_list();
-		}
-		
-		else if (lookahead.value().equals("*=")) {
-			match("*="); expression_list();
-		}
-		
-		else if (lookahead.value().equals("=")) {
-			_7_extend();
-		}
-		
-		else if (lookahead.value().equals("&=")) {
-			match("&="); expression_list();
-		}
-		
-		else if (lookahead.value().equals("-=")) {
-			match("-="); expression_list();
-		}
-		
-		else if (lookahead.value().equals("/=")) {
-			match("/="); expression_list();
-		}
-		
-		else if (lookahead.value().equals("^=")) {
-			match("^="); expression_list();
-		}
-		
-		else if (lookahead.value().equals("%=")) {
-			match("%="); expression_list();
-		}
-		
-		else if (lookahead.value().equals(">>=")) {
-			match(">>="); expression_list();
-		}
-		
-		else if (lookahead.value().equals("|=")) {
-			match("|="); expression_list();
-		}
-		
-		else error();
-	}
-	
-	public void xor_expr_() {
-		
-		if (lookahead.value().equals(")")||lookahead.value().equals("&=")||lookahead.value().equals("not")||lookahead.value().equals("in")||lookahead.value().equals("or")||lookahead.type().equals(TokenType.Newline)||lookahead.value().equals(">")||lookahead.value().equals("<")||lookahead.value().equals("{")||lookahead.value().equals("else")||lookahead.value().equals("%=")||lookahead.value().equals("|=")||lookahead.value().equals("if")||lookahead.value().equals("**=")||lookahead.value().equals("]")||lookahead.value().equals("/=")||lookahead.value().equals("and")||lookahead.value().equals("^=")||lookahead.value().equals(">>=")||lookahead.value().equals("!=")||lookahead.value().equals("==")||lookahead.value().equals("<<=")||lookahead.value().equals("+=")||lookahead.value().equals("*=")||lookahead.value().equals("|")||lookahead.value().equals("=")||lookahead.value().equals("-=")||lookahead.value().equals(">=")||lookahead.value().equals(",")||lookahead.value().equals("is")||lookahead.value().equals("<=")) {
-			
-		}
-		
-		else if (lookahead.value().equals("^")) {
-			match("^"); and_expr();xor_expr_();
-		}
-		
-		else error();
-	}
-	
-	public void _7_extend() {
-		
-		if (lookahead.value().equals("=")) {
-			_18_extend();_7_extend_();
-		}
-		
-		else error();
-	}
-	
+
 	public void suite() {
-		
-		if (lookahead.value().equals("{")||lookahead.type().equals(TokenType.Newline)) {
-			_5_extend();match("{"); statement_list();match("}"); 
+		if (isToken(TokenType.Newline)) {
+			match(TokenType.Newline);
 		}
-		
-		else error();
+		match("{"); statement_list(); match("}");
 	}
-	
-	public void statement_list() {
-		
-		if (lookahead.value().equals("-")||lookahead.type().equals(TokenType.String)||lookahead.value().equals("+")||lookahead.value().equals("if")||lookahead.value().equals("(")||lookahead.type().equals(TokenType.EOF)||lookahead.value().equals("true")||lookahead.type().equals(TokenType.LongInteger)||lookahead.value().equals("not")||lookahead.type().equals(TokenType.Identifier)||lookahead.value().equals("continue")||lookahead.value().equals("false")||lookahead.value().equals("for")||lookahead.type().equals(TokenType.Float)||lookahead.value().equals("return")||lookahead.value().equals("while")||lookahead.type().equals(TokenType.Newline)||lookahead.type().equals(TokenType.Integer)||lookahead.value().equals("do")||lookahead.value().equals("}")||lookahead.value().equals("class")||lookahead.value().equals("func")||lookahead.value().equals("~")||lookahead.value().equals("break")) {
-			_0_extend();
+
+	public void simple_stmt() {
+		switch (lookahead.value()) {
+		case "return":
+			return_stmt();
+			break;
+
+		case "break":
+			break_stmt();
+			break;
+
+		case "continue":
+			continue_stmt();
+			break;
+
+		default:
+			expression_stmt();
+			break;
 		}
-		
-		else error();
 	}
-	
+
+	public void expression_stmt() {
+		expression_list();
+		switch (lookahead.value()) {
+		case "=":
+			assignment_stmt();
+			break;
+
+		case "+=":case "-=":case "*=":case "/=":case "%=":case "**=":
+		case ">>=":case "<<=":case "&=":case "|=":case "^=":
+			String op = lookahead.value();
+			match(lookahead.value()); expression_list(); treeBuilder.augmentedAssignNode(op);
+			break;
+
+		default:
+			break;
+		}
+	}
+
+	public void assignment_stmt() {
+		int size = 0;
+		do {
+			match("="); expression_list(); size++;
+		} while(isToken("="));
+		treeBuilder.assignmentNode(size);
+	}
+
+	public void continue_stmt() {
+		match("continue"); treeBuilder.continueNode();
+	}
+
+	public void break_stmt() {
+		match("break"); treeBuilder.breakNode();
+	}
+
+	public void return_stmt() {
+		match("return");
+		if (!isToken(TokenType.Newline)) {
+			expression_list(); treeBuilder.returnNode(true);
+		} else {
+			treeBuilder.returnNode(false);
+		}
+	}
+
+	public void expression_list() {
+		expression();
+		int size = 1;
+		while (isToken(",")) {
+			match(","); expression(); size++;
+		}
+		if (size > 1) {
+			treeBuilder.expressionListNode(size);
+		}
+	}
+
 	public void expression() {
-		
-		if (lookahead.value().equals("-")||lookahead.type().equals(TokenType.String)||lookahead.value().equals("+")||lookahead.value().equals("~")||lookahead.value().equals("(")||lookahead.value().equals("true")||lookahead.type().equals(TokenType.Float)||lookahead.value().equals("not")||lookahead.type().equals(TokenType.Identifier)||lookahead.type().equals(TokenType.Integer)||lookahead.value().equals("false")||lookahead.type().equals(TokenType.LongInteger)) {
-			or_test();_10_extend();
+		or_test();
+		if (isToken("if")) {
+			match("if"); or_test(); match("else"); expression(); treeBuilder.ifelseExpression();
 		}
-		
-		else error();
 	}
-	
-	public void _7_extend_() {
-		
-		if (lookahead.type().equals(TokenType.Newline)) {
-			
-		}
-		
-		else if (lookahead.value().equals("=")) {
-			_18_extend();_7_extend_();
-		}
-		
-		else error();
+
+	public void or_test() {
+		and_test(); or_test_();
 	}
-	
+
+	public void or_test_() {
+		if (isToken("or")) {
+			match("or"); and_test(); treeBuilder.logicalNode("or");
+			or_test_();
+		}
+	}
+
+	public void and_test() {
+		not_test(); and_test_();
+	}
+
+	public void and_test_() {
+		if (isToken("and")) {
+			match("and"); not_test(); treeBuilder.logicalNode("and");
+			and_test_();
+		}
+	}
+
+	public void not_test() {
+		if (isToken("not")) {
+			match("not"); not_test(); treeBuilder.unaryNode("not");
+		} else {
+			comparison();
+		}
+	}
+
+	public void comparison() {
+		or_expr();
+		switch (lookahead.value()) {
+		case "<":case ">":case "==":case ">=":case "<=":case "!=":
+			String op = lookahead.value();
+			match(lookahead.value()); or_expr(); treeBuilder.comparisonNode(op);
+			break;
+
+		case "is":
+			match("is");
+			if (isToken("not")) {
+				match("not"); or_expr(); treeBuilder.comparisonNode("is not");
+			} else {
+				or_expr(); treeBuilder.comparisonNode("is");
+			}
+			break;
+
+		case "not":
+			match("not"); match("in"); or_expr(); treeBuilder.comparisonNode("not in");
+			break;
+
+		case "in":
+			match("in"); or_expr(); treeBuilder.comparisonNode("in");
+			break;
+
+		default:
+			break;
+		}
+	}
+
+	public void or_expr() {
+		xor_expr(); or_expr_();
+	}
+
+	public void or_expr_() {
+		if (isToken("|")) {
+			match("|"); xor_expr(); treeBuilder.binaryNode("|");
+			or_expr_();
+		}
+	}
+
+	public void xor_expr() {
+		and_expr(); xor_expr_();
+	}
+
+	public void xor_expr_() {
+		if (isToken("^")) {
+			match("^"); and_expr(); treeBuilder.binaryNode("^");
+			xor_expr_();
+		}
+	}
+
+	public void and_expr() {
+		shift_expr(); and_expr_();
+	}
+
+	public void and_expr_() {
+		if (isToken("&")) {
+			match("&"); shift_expr(); treeBuilder.binaryNode("&");
+			and_expr_();
+		}
+	}
+
+	public void shift_expr() {
+		a_expr(); shift_expr_();
+	}
+
+	public void shift_expr_() {
+		if (isToken("<<")) {
+			match("<<"); a_expr(); treeBuilder.binaryNode("<<");
+			shift_expr_();
+		} else if (isToken(">>")) {
+			match(">>"); a_expr(); treeBuilder.binaryNode(">>");
+			shift_expr_();
+		}
+	}
+
+	public void a_expr() {
+		m_expr(); a_expr_();
+	}
+
+	public void a_expr_() {
+		if (isToken("+")) {
+			match("+"); m_expr(); treeBuilder.binaryNode("+");
+			a_expr_();
+		} else if (isToken("-")) {
+			match("-"); m_expr(); treeBuilder.binaryNode("-");
+			a_expr_();
+		}
+	}
+
+	public void m_expr() {
+		u_expr(); m_expr_();
+	}
+
+	public void m_expr_() {
+		if (isToken("*")) {
+			match("*"); u_expr(); treeBuilder.binaryNode("*");
+			m_expr_();
+		} else if (isToken("/")) {
+			match("/"); u_expr(); treeBuilder.binaryNode("/");
+			m_expr_();
+		} else if (isToken("%")) {
+			match("%"); u_expr(); treeBuilder.binaryNode("%");
+			m_expr_();
+		}
+	}
+
+	public void u_expr() {
+		if (isToken("-")) {
+			match("-"); u_expr(); treeBuilder.unaryNode("-");
+		} else if (isToken("+")) {
+			match("+"); u_expr(); treeBuilder.unaryNode("+");
+		} else if (isToken("~")) {
+			match("~"); u_expr(); treeBuilder.unaryNode("~");
+		} else {
+			power();
+		}
+	}
+
+	public void power() {
+		primary();
+		if (isToken("**")) {
+			match("**"); u_expr(); treeBuilder.binaryNode("**");
+		}
+	}
+
+	public void primary() {
+		atom(); primary_();
+	}
+
+	public void primary_() {
+		switch (lookahead.value()) {
+		case ".":
+			match(".");
+			treeBuilder.identifierNode(lookahead.value());
+			match(TokenType.Identifier);
+			treeBuilder.attributeNode();
+			primary_();
+			break;
+
+		case "[":
+			match("["); expression_list(); match("]"); treeBuilder.indexingNode();
+			primary_();
+			break;
+
+		case "(":
+			match("(");
+			if (!isToken(")")) {
+				expression_list(); treeBuilder.callNode();
+			} else {
+				treeBuilder.callNodeWithoutArgs();
+			}
+			match(")"); primary_();
+			break;
+
+		default:
+			break;
+		}
+ 	}
+
+ 	public void atom() {
+ 		if (isToken(TokenType.Identifier)) {
+ 			treeBuilder.identifierNode(lookahead.value());
+ 			match(TokenType.Identifier);
+ 		} else if (isToken("(")) {
+ 			enclosure();
+ 		} else {
+ 			literal();
+ 		}
+ 	}
+
+ 	public void enclosure() {
+ 		match("("); expression_list(); match(")");
+ 	}
+
+ 	public void literal() {
+ 		switch (lookahead.type()) {
+ 		case String:
+ 			treeBuilder.stringNode(lookahead.value());
+ 			match(TokenType.String);
+ 			break;
+
+ 		case Integer:
+ 			treeBuilder.intNode(lookahead.value());
+ 			match(TokenType.Integer);
+ 			break;
+
+ 		case LongInteger:
+ 			treeBuilder.longNode(lookahead.value());
+ 			match(TokenType.LongInteger);
+ 			break;
+
+ 		case Float:
+ 			treeBuilder.doubleNode(lookahead.value());
+ 			match(TokenType.Float);
+ 			break;
+
+ 		default:
+ 			if (isToken("true")) {
+ 				match("true");
+ 				treeBuilder.boolNode(true);
+ 			} else if (isToken("false")) {
+ 				match("false");
+ 				treeBuilder.boolNode(false);
+ 			} else if (isToken("self")) {
+ 				match("self");
+ 				treeBuilder.identifierNode("self");
+ 			} else {
+ 				error();
+ 			}
+ 			break;
+ 		}
+ 	}
+
+	private boolean isToken(TokenType type) {
+		return lookahead.type().equals(type);
+	}
+
+	private boolean isToken(String value) {
+		return lookahead.value().equals(value);
+	}
 
 	private void error() {
 		throw new Error("Error in line : " + lineCount + " the "
@@ -904,7 +512,7 @@ public class Parser {
 		if (lookahead.type().equals(type)) {
 			consume();
 		} else {
-			throw new Error("Error in line : " + lineCount + "the "
+			throw new Error("Error in line : " + lineCount + " the "
 				+ colTokenCount + " token. Expecting '"
 				+ type.name() + "'; found '" + lookahead.type().name()
 				+ "'");
