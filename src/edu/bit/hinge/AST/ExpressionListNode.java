@@ -2,15 +2,10 @@ package edu.bit.hinge.AST;
 
 import java.util.List;
 
-public class ExpressionListNode extends AST {
-
-	private List<AST> expressionList;
+public class ExpressionListNode extends ListNode {
 	
 	public ExpressionListNode(List<AST> expressions) {
-		this.expressionList = expressions;
+		super(expressions);
 	}
 	
-	public List<AST> getExpressionList() {
-		return expressionList;
-	}
 }

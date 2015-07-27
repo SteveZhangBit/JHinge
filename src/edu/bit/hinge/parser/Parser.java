@@ -221,7 +221,7 @@ public class Parser {
 			treeBuilder.returnNode(false);
 		}
 	}
-
+	
 	public void expression_list() {
 		expression();
 		int size = 1;
@@ -306,7 +306,7 @@ public class Parser {
 
 	public void or_expr_() {
 		if (isToken("|")) {
-			match("|"); xor_expr(); treeBuilder.binaryNode("|");
+			match("|"); xor_expr(); treeBuilder.arithmaticNode("|");
 			or_expr_();
 		}
 	}
@@ -317,7 +317,7 @@ public class Parser {
 
 	public void xor_expr_() {
 		if (isToken("^")) {
-			match("^"); and_expr(); treeBuilder.binaryNode("^");
+			match("^"); and_expr(); treeBuilder.arithmaticNode("^");
 			xor_expr_();
 		}
 	}
@@ -328,7 +328,7 @@ public class Parser {
 
 	public void and_expr_() {
 		if (isToken("&")) {
-			match("&"); shift_expr(); treeBuilder.binaryNode("&");
+			match("&"); shift_expr(); treeBuilder.arithmaticNode("&");
 			and_expr_();
 		}
 	}
@@ -339,10 +339,10 @@ public class Parser {
 
 	public void shift_expr_() {
 		if (isToken("<<")) {
-			match("<<"); a_expr(); treeBuilder.binaryNode("<<");
+			match("<<"); a_expr(); treeBuilder.arithmaticNode("<<");
 			shift_expr_();
 		} else if (isToken(">>")) {
-			match(">>"); a_expr(); treeBuilder.binaryNode(">>");
+			match(">>"); a_expr(); treeBuilder.arithmaticNode(">>");
 			shift_expr_();
 		}
 	}
@@ -353,10 +353,10 @@ public class Parser {
 
 	public void a_expr_() {
 		if (isToken("+")) {
-			match("+"); m_expr(); treeBuilder.binaryNode("+");
+			match("+"); m_expr(); treeBuilder.arithmaticNode("+");
 			a_expr_();
 		} else if (isToken("-")) {
-			match("-"); m_expr(); treeBuilder.binaryNode("-");
+			match("-"); m_expr(); treeBuilder.arithmaticNode("-");
 			a_expr_();
 		}
 	}
@@ -367,13 +367,13 @@ public class Parser {
 
 	public void m_expr_() {
 		if (isToken("*")) {
-			match("*"); u_expr(); treeBuilder.binaryNode("*");
+			match("*"); u_expr(); treeBuilder.arithmaticNode("*");
 			m_expr_();
 		} else if (isToken("/")) {
-			match("/"); u_expr(); treeBuilder.binaryNode("/");
+			match("/"); u_expr(); treeBuilder.arithmaticNode("/");
 			m_expr_();
 		} else if (isToken("%")) {
-			match("%"); u_expr(); treeBuilder.binaryNode("%");
+			match("%"); u_expr(); treeBuilder.arithmaticNode("%");
 			m_expr_();
 		}
 	}
@@ -393,7 +393,7 @@ public class Parser {
 	public void power() {
 		primary();
 		if (isToken("**")) {
-			match("**"); u_expr(); treeBuilder.binaryNode("**");
+			match("**"); u_expr(); treeBuilder.arithmaticNode("**");
 		}
 	}
 
@@ -475,9 +475,6 @@ public class Parser {
  			} else if (isToken("false")) {
  				match("false");
  				treeBuilder.boolNode(false);
- 			} else if (isToken("self")) {
- 				match("self");
- 				treeBuilder.identifierNode("self");
  			} else {
  				error();
  			}

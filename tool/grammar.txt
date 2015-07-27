@@ -41,4 +41,4 @@ primary			::= atom | attributeref | subscription | call
 atom 			::= <Identifier> | literal | enclosure
 enclosure 		::= parenth_form
 parenth_form	::= "(" expression_list ")"
-literal			::= <String> | <Integer> | <LongInteger> | <Float> | "true" | "false"
+literal			::= <String> | <Integer> | <LongInteger> | <Float> | "true" | "false" | "self"

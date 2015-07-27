@@ -1,5 +1,6 @@
 package edu.bit.hinge.AST.builder;
 
+import java.util.ArrayList;
 import java.util.Deque;
 import java.util.LinkedList;
 import java.util.List;
@@ -8,7 +9,6 @@ import edu.bit.hinge.AST.AST;
 import edu.bit.hinge.AST.ArithmaticNode;
 import edu.bit.hinge.AST.AssignmentNode;
 import edu.bit.hinge.AST.AttributeNode;
-import edu.bit.hinge.AST.AugmentedAssignNode;
 import edu.bit.hinge.AST.BoolNode;
 import edu.bit.hinge.AST.BreakNode;
 import edu.bit.hinge.AST.CallNode;
@@ -120,7 +120,12 @@ public class ASTBuilder {
 	public void augmentedAssignNode(String operator) {
 		AST expression = stack.pop();
 		AST target = stack.pop();
-		stack.push(new AugmentedAssignNode(target, operator, expression));
+		operator = operator.substring(0, operator.length() - 1);
+		expression = new ArithmaticNode(target, operator, expression);
+		
+		List<AST> targetList = new ArrayList<AST>(1);
+		targetList.add(target);
+		stack.push(new AssignmentNode(targetList, expression));
 	}
 	
 	public void assignmentNode(int size) {
@@ -175,7 +180,7 @@ public class ASTBuilder {
 		stack.push(new ComparisonNode(left, operator, right));
 	}
 	
-	public void binaryNode(String operator) {
+	public void arithmaticNode(String operator) {
 		AST right = stack.pop();
 		AST left = stack.pop();
 		stack.push(new ArithmaticNode(left, operator, right));

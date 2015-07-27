@@ -3,7 +3,6 @@ package edu.bit.hinge.visitor;
 import edu.bit.hinge.AST.AST;
 import edu.bit.hinge.AST.AssignmentNode;
 import edu.bit.hinge.AST.AttributeNode;
-import edu.bit.hinge.AST.AugmentedAssignNode;
 import edu.bit.hinge.AST.BinaryExpressionNode;
 import edu.bit.hinge.AST.BreakNode;
 import edu.bit.hinge.AST.CallNode;
@@ -31,7 +30,7 @@ public class PrintVisitor extends Visitor {
 	public void visit(AST tree) {
 		// TODO Auto-generated method stub
 		if (tree instanceof StatementListNode) {
-			for (AST stmt : ((StatementListNode)tree).getStatementList()) {
+			for (AST stmt : ((StatementListNode)tree).getList()) {
 				visit(stmt);
 				System.out.print('\n');
 			}
@@ -52,7 +51,7 @@ public class PrintVisitor extends Visitor {
 			print((FunctionNode)tree);
 		}
 		else if (tree instanceof ParamListNode) {
-			for (AST param : ((ParamListNode)tree).getParameters()) {
+			for (AST param : ((ParamListNode)tree).getList()) {
 				visit(param);
 				System.out.print(", ");
 			}
@@ -74,9 +73,6 @@ public class PrintVisitor extends Visitor {
 		}
 		else if (tree instanceof AssignmentNode) {
 			print((AssignmentNode)tree);
-		}
-		else if (tree instanceof AugmentedAssignNode) {
-			print((AugmentedAssignNode)tree);
 		}
 		else if (tree instanceof ReturnNode) {
 			print((ReturnNode)tree);
@@ -186,12 +182,6 @@ public class PrintVisitor extends Visitor {
 		visit(node.getExpression());
 	}
 	
-	private void print(AugmentedAssignNode node) {
-		visit(node.getTarget());
-		System.out.print(' ' + node.getOperator() + ' ');
-		visit(node.getExpression());
-	}
-	
 	private void print(ReturnNode node) {
 		if (node.getExpressionList() == null) {
 			System.out.print("return");
@@ -203,7 +193,7 @@ public class PrintVisitor extends Visitor {
 	
 	private void print(ExpressionListNode node) {
 		System.out.print('(');
-		for (AST child : node.getExpressionList()) {
+		for (AST child : node.getList()) {
 			visit(child);
 			System.out.print(", ");
 		}

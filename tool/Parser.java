@@ -17,7 +17,7 @@ public class Parser {
 	
 	public void _14_extend() {
 		
-		if (lookahead.value().equals("-")||lookahead.value().equals(">>")||lookahead.value().equals("+")||lookahead.value().equals("^")||lookahead.value().equals(")")||lookahead.value().equals("&=")||lookahead.value().equals("not")||lookahead.value().equals("|")||lookahead.value().equals("or")||lookahead.type().equals(TokenType.Newline)||lookahead.value().equals("%")||lookahead.value().equals(">")||lookahead.value().equals("<")||lookahead.value().equals("<<")||lookahead.value().equals("{")||lookahead.value().equals("else")||lookahead.value().equals("/")||lookahead.value().equals("|=")||lookahead.value().equals("*")||lookahead.value().equals("if")||lookahead.value().equals("==")||lookahead.value().equals("]")||lookahead.value().equals("/=")||lookahead.value().equals("and")||lookahead.value().equals("^=")||lookahead.value().equals(">>=")||lookahead.value().equals("!=")||lookahead.value().equals("&")||lookahead.value().equals("**=")||lookahead.value().equals("%=")||lookahead.value().equals("<<=")||lookahead.value().equals("+=")||lookahead.value().equals("*=")||lookahead.value().equals("in")||lookahead.value().equals("=")||lookahead.value().equals("-=")||lookahead.value().equals(">=")||lookahead.value().equals("<=")||lookahead.value().equals("is")||lookahead.value().equals(",")) {
+		if (lookahead.value().equals("-")||lookahead.value().equals(">>")||lookahead.value().equals("+")||lookahead.value().equals("^")||lookahead.value().equals(")")||lookahead.value().equals("&=")||lookahead.value().equals("not")||lookahead.value().equals("|")||lookahead.value().equals("or")||lookahead.type().equals(TokenType.Newline)||lookahead.value().equals("%")||lookahead.value().equals(">")||lookahead.value().equals("<")||lookahead.value().equals("<<")||lookahead.value().equals("{")||lookahead.value().equals("else")||lookahead.value().equals(">>=")||lookahead.value().equals("|=")||lookahead.value().equals("*")||lookahead.value().equals("if")||lookahead.value().equals("==")||lookahead.value().equals("]")||lookahead.value().equals("/=")||lookahead.value().equals("and")||lookahead.value().equals("^=")||lookahead.value().equals("/")||lookahead.value().equals("!=")||lookahead.value().equals("&")||lookahead.value().equals("**=")||lookahead.value().equals("%=")||lookahead.value().equals("<<=")||lookahead.value().equals("+=")||lookahead.value().equals("*=")||lookahead.value().equals("in")||lookahead.value().equals("=")||lookahead.value().equals("-=")||lookahead.value().equals(">=")||lookahead.value().equals("<=")||lookahead.value().equals("is")||lookahead.value().equals(",")) {
 			
 		}
 		
@@ -97,7 +97,7 @@ public class Parser {
 	
 	public void primary() {
 		
-		if (lookahead.type().equals(TokenType.String)||lookahead.type().equals(TokenType.Identifier)||lookahead.value().equals("(")||lookahead.value().equals("false")||lookahead.type().equals(TokenType.Integer)||lookahead.type().equals(TokenType.Float)||lookahead.value().equals("true")||lookahead.type().equals(TokenType.LongInteger)) {
+		if (lookahead.type().equals(TokenType.String)||lookahead.value().equals("self")||lookahead.type().equals(TokenType.Integer)||lookahead.value().equals("(")||lookahead.value().equals("true")||lookahead.type().equals(TokenType.LongInteger)||lookahead.type().equals(TokenType.Identifier)||lookahead.value().equals("false")||lookahead.type().equals(TokenType.Float)) {
 			atom();primary_();
 		}
 		
@@ -106,7 +106,7 @@ public class Parser {
 	
 	public void not_test() {
 		
-		if (lookahead.value().equals("-")||lookahead.type().equals(TokenType.String)||lookahead.value().equals("+")||lookahead.value().equals("~")||lookahead.value().equals("(")||lookahead.value().equals("true")||lookahead.type().equals(TokenType.Float)||lookahead.type().equals(TokenType.Identifier)||lookahead.type().equals(TokenType.Integer)||lookahead.value().equals("false")||lookahead.type().equals(TokenType.LongInteger)) {
+		if (lookahead.value().equals("-")||lookahead.type().equals(TokenType.String)||lookahead.value().equals("self")||lookahead.value().equals("+")||lookahead.value().equals("~")||lookahead.value().equals("(")||lookahead.value().equals("true")||lookahead.type().equals(TokenType.LongInteger)||lookahead.type().equals(TokenType.Identifier)||lookahead.type().equals(TokenType.Integer)||lookahead.value().equals("false")||lookahead.type().equals(TokenType.Float)) {
 			comparison();
 		}
 		
@@ -119,7 +119,7 @@ public class Parser {
 	
 	public void _12_extend() {
 		
-		if (lookahead.value().equals("-")||lookahead.type().equals(TokenType.String)||lookahead.value().equals("+")||lookahead.value().equals("~")||lookahead.value().equals("(")||lookahead.value().equals("true")||lookahead.value().equals("in")||lookahead.type().equals(TokenType.Identifier)||lookahead.type().equals(TokenType.Integer)||lookahead.value().equals("false")||lookahead.type().equals(TokenType.Float)||lookahead.type().equals(TokenType.LongInteger)) {
+		if (lookahead.value().equals("-")||lookahead.type().equals(TokenType.String)||lookahead.value().equals("self")||lookahead.value().equals("+")||lookahead.value().equals("~")||lookahead.value().equals("(")||lookahead.value().equals("true")||lookahead.value().equals("in")||lookahead.type().equals(TokenType.Identifier)||lookahead.type().equals(TokenType.Integer)||lookahead.value().equals("false")||lookahead.type().equals(TokenType.Float)||lookahead.type().equals(TokenType.LongInteger)) {
 			
 		}
 		
@@ -132,7 +132,7 @@ public class Parser {
 	
 	public void or_expr() {
 		
-		if (lookahead.value().equals("-")||lookahead.type().equals(TokenType.String)||lookahead.value().equals("+")||lookahead.value().equals("~")||lookahead.value().equals("(")||lookahead.value().equals("true")||lookahead.type().equals(TokenType.Float)||lookahead.type().equals(TokenType.Identifier)||lookahead.type().equals(TokenType.Integer)||lookahead.value().equals("false")||lookahead.type().equals(TokenType.LongInteger)) {
+		if (lookahead.value().equals("-")||lookahead.type().equals(TokenType.String)||lookahead.value().equals("self")||lookahead.value().equals("+")||lookahead.value().equals("~")||lookahead.value().equals("(")||lookahead.value().equals("true")||lookahead.type().equals(TokenType.LongInteger)||lookahead.type().equals(TokenType.Identifier)||lookahead.type().equals(TokenType.Integer)||lookahead.value().equals("false")||lookahead.type().equals(TokenType.Float)) {
 			xor_expr();or_expr_();
 		}
 		
@@ -150,7 +150,7 @@ public class Parser {
 	
 	public void _9_extend() {
 		
-		if (lookahead.value().equals(")")||lookahead.value().equals("]")||lookahead.value().equals("&=")||lookahead.value().equals("/=")||lookahead.value().equals("^=")||lookahead.value().equals("%=")||lookahead.value().equals("**=")||lookahead.value().equals("<<=")||lookahead.type().equals(TokenType.Newline)||lookahead.value().equals("+=")||lookahead.value().equals("*=")||lookahead.value().equals("=")||lookahead.value().equals("-=")||lookahead.value().equals("{")||lookahead.value().equals(">>=")||lookahead.value().equals("|=")||lookahead.value().equals(",")) {
+		if (lookahead.value().equals(")")||lookahead.value().equals("]")||lookahead.value().equals("&=")||lookahead.value().equals("/=")||lookahead.value().equals("^=")||lookahead.value().equals(">>=")||lookahead.value().equals("**=")||lookahead.value().equals("<<=")||lookahead.type().equals(TokenType.Newline)||lookahead.value().equals("+=")||lookahead.value().equals("*=")||lookahead.value().equals("=")||lookahead.value().equals("-=")||lookahead.value().equals("{")||lookahead.value().equals("%=")||lookahead.value().equals("|=")||lookahead.value().equals(",")) {
 			_9_extend_();
 		}
 		
@@ -163,7 +163,7 @@ public class Parser {
 			match("-"); m_expr();a_expr_();
 		}
 		
-		else if (lookahead.value().equals(">>")||lookahead.value().equals("^")||lookahead.value().equals(")")||lookahead.value().equals("&=")||lookahead.value().equals("not")||lookahead.value().equals("|")||lookahead.value().equals("or")||lookahead.type().equals(TokenType.Newline)||lookahead.value().equals(">")||lookahead.value().equals("<")||lookahead.value().equals("<<")||lookahead.value().equals("{")||lookahead.value().equals("else")||lookahead.value().equals(">>=")||lookahead.value().equals("|=")||lookahead.value().equals("if")||lookahead.value().equals("==")||lookahead.value().equals("]")||lookahead.value().equals("/=")||lookahead.value().equals("and")||lookahead.value().equals("^=")||lookahead.value().equals("%=")||lookahead.value().equals("!=")||lookahead.value().equals("&")||lookahead.value().equals("**=")||lookahead.value().equals("<<=")||lookahead.value().equals("+=")||lookahead.value().equals("*=")||lookahead.value().equals("in")||lookahead.value().equals("=")||lookahead.value().equals("-=")||lookahead.value().equals(">=")||lookahead.value().equals("<=")||lookahead.value().equals("is")||lookahead.value().equals(",")) {
+		else if (lookahead.value().equals(">>")||lookahead.value().equals("^")||lookahead.value().equals(")")||lookahead.value().equals("&=")||lookahead.value().equals("not")||lookahead.value().equals("|")||lookahead.value().equals("or")||lookahead.type().equals(TokenType.Newline)||lookahead.value().equals(">")||lookahead.value().equals("<")||lookahead.value().equals("<<")||lookahead.value().equals("{")||lookahead.value().equals("else")||lookahead.value().equals("%=")||lookahead.value().equals("|=")||lookahead.value().equals("if")||lookahead.value().equals("==")||lookahead.value().equals("]")||lookahead.value().equals("/=")||lookahead.value().equals("and")||lookahead.value().equals("^=")||lookahead.value().equals(">>=")||lookahead.value().equals("!=")||lookahead.value().equals("&")||lookahead.value().equals("**=")||lookahead.value().equals("<<=")||lookahead.value().equals("+=")||lookahead.value().equals("*=")||lookahead.value().equals("in")||lookahead.value().equals("=")||lookahead.value().equals("-=")||lookahead.value().equals(">=")||lookahead.value().equals("<=")||lookahead.value().equals("is")||lookahead.value().equals(",")) {
 			
 		}
 		
@@ -193,7 +193,7 @@ public class Parser {
 			match("<<"); a_expr();shift_expr_();
 		}
 		
-		else if (lookahead.value().equals("^")||lookahead.value().equals(")")||lookahead.value().equals("&=")||lookahead.value().equals("not")||lookahead.value().equals("|")||lookahead.value().equals("or")||lookahead.type().equals(TokenType.Newline)||lookahead.value().equals(">")||lookahead.value().equals("<")||lookahead.value().equals("{")||lookahead.value().equals("else")||lookahead.value().equals(">>=")||lookahead.value().equals("|=")||lookahead.value().equals("if")||lookahead.value().equals("**=")||lookahead.value().equals("]")||lookahead.value().equals("/=")||lookahead.value().equals("and")||lookahead.value().equals("^=")||lookahead.value().equals("%=")||lookahead.value().equals("!=")||lookahead.value().equals("&")||lookahead.value().equals("==")||lookahead.value().equals("<<=")||lookahead.value().equals("+=")||lookahead.value().equals("*=")||lookahead.value().equals("in")||lookahead.value().equals("=")||lookahead.value().equals("-=")||lookahead.value().equals(">=")||lookahead.value().equals(",")||lookahead.value().equals("is")||lookahead.value().equals("<=")) {
+		else if (lookahead.value().equals("^")||lookahead.value().equals(")")||lookahead.value().equals("&=")||lookahead.value().equals("not")||lookahead.value().equals("in")||lookahead.value().equals("or")||lookahead.type().equals(TokenType.Newline)||lookahead.value().equals(">")||lookahead.value().equals("<")||lookahead.value().equals("{")||lookahead.value().equals("else")||lookahead.value().equals(">>=")||lookahead.value().equals("|=")||lookahead.value().equals("if")||lookahead.value().equals("==")||lookahead.value().equals("]")||lookahead.value().equals("/=")||lookahead.value().equals("and")||lookahead.value().equals("^=")||lookahead.value().equals("%=")||lookahead.value().equals("!=")||lookahead.value().equals("&")||lookahead.value().equals("**=")||lookahead.value().equals("<<=")||lookahead.value().equals("+=")||lookahead.value().equals("*=")||lookahead.value().equals("|")||lookahead.value().equals("=")||lookahead.value().equals("-=")||lookahead.value().equals(">=")||lookahead.value().equals("<=")||lookahead.value().equals("is")||lookahead.value().equals(",")) {
 			
 		}
 		
@@ -231,7 +231,7 @@ public class Parser {
 			match("+"); u_expr();
 		}
 		
-		else if (lookahead.type().equals(TokenType.String)||lookahead.type().equals(TokenType.Integer)||lookahead.value().equals("(")||lookahead.value().equals("true")||lookahead.type().equals(TokenType.Float)||lookahead.type().equals(TokenType.Identifier)||lookahead.value().equals("false")||lookahead.type().equals(TokenType.LongInteger)) {
+		else if (lookahead.type().equals(TokenType.String)||lookahead.value().equals("self")||lookahead.type().equals(TokenType.Integer)||lookahead.value().equals("(")||lookahead.value().equals("true")||lookahead.type().equals(TokenType.LongInteger)||lookahead.type().equals(TokenType.Identifier)||lookahead.value().equals("false")||lookahead.type().equals(TokenType.Float)) {
 			power();
 		}
 		
@@ -240,7 +240,7 @@ public class Parser {
 	
 	public void shift_expr() {
 		
-		if (lookahead.value().equals("-")||lookahead.type().equals(TokenType.String)||lookahead.value().equals("+")||lookahead.value().equals("~")||lookahead.value().equals("(")||lookahead.value().equals("true")||lookahead.type().equals(TokenType.Float)||lookahead.type().equals(TokenType.Identifier)||lookahead.type().equals(TokenType.Integer)||lookahead.value().equals("false")||lookahead.type().equals(TokenType.LongInteger)) {
+		if (lookahead.value().equals("-")||lookahead.type().equals(TokenType.String)||lookahead.value().equals("self")||lookahead.value().equals("+")||lookahead.value().equals("~")||lookahead.value().equals("(")||lookahead.value().equals("true")||lookahead.type().equals(TokenType.LongInteger)||lookahead.type().equals(TokenType.Identifier)||lookahead.type().equals(TokenType.Integer)||lookahead.value().equals("false")||lookahead.type().equals(TokenType.Float)) {
 			a_expr();shift_expr_();
 		}
 		
@@ -249,7 +249,7 @@ public class Parser {
 	
 	public void _10_extend() {
 		
-		if (lookahead.value().equals(")")||lookahead.value().equals("]")||lookahead.value().equals("&=")||lookahead.value().equals("/=")||lookahead.value().equals("^=")||lookahead.value().equals("%=")||lookahead.value().equals("**=")||lookahead.value().equals("<<=")||lookahead.type().equals(TokenType.Newline)||lookahead.value().equals("+=")||lookahead.value().equals("*=")||lookahead.value().equals("=")||lookahead.value().equals("-=")||lookahead.value().equals("{")||lookahead.value().equals(">>=")||lookahead.value().equals("|=")||lookahead.value().equals(",")) {
+		if (lookahead.value().equals(")")||lookahead.value().equals("]")||lookahead.value().equals("&=")||lookahead.value().equals("/=")||lookahead.value().equals("^=")||lookahead.value().equals(">>=")||lookahead.value().equals("**=")||lookahead.value().equals("<<=")||lookahead.type().equals(TokenType.Newline)||lookahead.value().equals("+=")||lookahead.value().equals("*=")||lookahead.value().equals("=")||lookahead.value().equals("-=")||lookahead.value().equals("{")||lookahead.value().equals("%=")||lookahead.value().equals("|=")||lookahead.value().equals(",")) {
 			
 		}
 		
@@ -271,7 +271,7 @@ public class Parser {
 	
 	public void else_stmt() {
 		
-		if (lookahead.value().equals("-")||lookahead.type().equals(TokenType.String)||lookahead.value().equals("+")||lookahead.value().equals("if")||lookahead.value().equals("(")||lookahead.type().equals(TokenType.EOF)||lookahead.value().equals("true")||lookahead.type().equals(TokenType.LongInteger)||lookahead.value().equals("not")||lookahead.type().equals(TokenType.Identifier)||lookahead.value().equals("continue")||lookahead.value().equals("false")||lookahead.value().equals("for")||lookahead.type().equals(TokenType.Float)||lookahead.value().equals("return")||lookahead.value().equals("while")||lookahead.type().equals(TokenType.Newline)||lookahead.type().equals(TokenType.Integer)||lookahead.value().equals("do")||lookahead.value().equals("}")||lookahead.value().equals("class")||lookahead.value().equals("func")||lookahead.value().equals("~")||lookahead.value().equals("break")) {
+		if (lookahead.value().equals("-")||lookahead.type().equals(TokenType.String)||lookahead.value().equals("+")||lookahead.value().equals("if")||lookahead.value().equals("(")||lookahead.type().equals(TokenType.EOF)||lookahead.value().equals("true")||lookahead.type().equals(TokenType.LongInteger)||lookahead.value().equals("not")||lookahead.type().equals(TokenType.Identifier)||lookahead.value().equals("continue")||lookahead.value().equals("false")||lookahead.value().equals("for")||lookahead.type().equals(TokenType.Float)||lookahead.value().equals("return")||lookahead.value().equals("while")||lookahead.value().equals("self")||lookahead.type().equals(TokenType.Newline)||lookahead.type().equals(TokenType.Integer)||lookahead.value().equals("do")||lookahead.value().equals("}")||lookahead.value().equals("class")||lookahead.value().equals("func")||lookahead.value().equals("~")||lookahead.value().equals("break")) {
 			
 		}
 		
@@ -306,6 +306,10 @@ public class Parser {
 			match(TokenType.String); 
 		}
 		
+		else if (lookahead.value().equals("self")) {
+			match("self"); 
+		}
+		
 		else if (lookahead.type().equals(TokenType.Integer)) {
 			match(TokenType.Integer); 
 		}
@@ -331,7 +335,7 @@ public class Parser {
 	
 	public void and_expr_() {
 		
-		if (lookahead.value().equals("^")||lookahead.value().equals(")")||lookahead.value().equals("&=")||lookahead.value().equals("not")||lookahead.value().equals("|")||lookahead.value().equals("or")||lookahead.type().equals(TokenType.Newline)||lookahead.value().equals(">")||lookahead.value().equals("<")||lookahead.value().equals("{")||lookahead.value().equals("else")||lookahead.value().equals(">>=")||lookahead.value().equals("|=")||lookahead.value().equals("if")||lookahead.value().equals("**=")||lookahead.value().equals("]")||lookahead.value().equals("/=")||lookahead.value().equals("and")||lookahead.value().equals("^=")||lookahead.value().equals("%=")||lookahead.value().equals("!=")||lookahead.value().equals("==")||lookahead.value().equals("<<=")||lookahead.value().equals("+=")||lookahead.value().equals("*=")||lookahead.value().equals("in")||lookahead.value().equals("=")||lookahead.value().equals("-=")||lookahead.value().equals(">=")||lookahead.value().equals(",")||lookahead.value().equals("is")||lookahead.value().equals("<=")) {
+		if (lookahead.value().equals("^")||lookahead.value().equals(")")||lookahead.value().equals("&=")||lookahead.value().equals("not")||lookahead.value().equals("in")||lookahead.value().equals("or")||lookahead.type().equals(TokenType.Newline)||lookahead.value().equals(">")||lookahead.value().equals("<")||lookahead.value().equals("{")||lookahead.value().equals("else")||lookahead.value().equals(">>=")||lookahead.value().equals("|=")||lookahead.value().equals("if")||lookahead.value().equals("==")||lookahead.value().equals("]")||lookahead.value().equals("/=")||lookahead.value().equals("and")||lookahead.value().equals("^=")||lookahead.value().equals("%=")||lookahead.value().equals("!=")||lookahead.value().equals("**=")||lookahead.value().equals("<<=")||lookahead.value().equals("+=")||lookahead.value().equals("*=")||lookahead.value().equals("|")||lookahead.value().equals("=")||lookahead.value().equals("-=")||lookahead.value().equals(">=")||lookahead.value().equals("<=")||lookahead.value().equals("is")||lookahead.value().equals(",")) {
 			
 		}
 		
@@ -363,6 +367,10 @@ public class Parser {
 		
 		else if (lookahead.type().equals(TokenType.String)) {
 			match(TokenType.String); primary_();_14_extend();m_expr_();a_expr_();shift_expr_();and_expr_();xor_expr_();or_expr_();_11_extend();and_test_();or_test_();_10_extend();_9_extend();
+		}
+		
+		else if (lookahead.value().equals("self")) {
+			match("self"); primary_();_14_extend();m_expr_();a_expr_();shift_expr_();and_expr_();xor_expr_();or_expr_();_11_extend();and_test_();or_test_();_10_extend();_9_extend();
 		}
 		
 		else if (lookahead.value().equals("+")) {
@@ -423,7 +431,7 @@ public class Parser {
 	
 	public void and_expr() {
 		
-		if (lookahead.value().equals("-")||lookahead.type().equals(TokenType.String)||lookahead.value().equals("+")||lookahead.value().equals("~")||lookahead.value().equals("(")||lookahead.value().equals("true")||lookahead.type().equals(TokenType.Float)||lookahead.type().equals(TokenType.Identifier)||lookahead.type().equals(TokenType.Integer)||lookahead.value().equals("false")||lookahead.type().equals(TokenType.LongInteger)) {
+		if (lookahead.value().equals("-")||lookahead.type().equals(TokenType.String)||lookahead.value().equals("self")||lookahead.value().equals("+")||lookahead.value().equals("~")||lookahead.value().equals("(")||lookahead.value().equals("true")||lookahead.type().equals(TokenType.LongInteger)||lookahead.type().equals(TokenType.Identifier)||lookahead.type().equals(TokenType.Integer)||lookahead.value().equals("false")||lookahead.type().equals(TokenType.Float)) {
 			shift_expr();and_expr_();
 		}
 		
@@ -432,7 +440,7 @@ public class Parser {
 	
 	public void power() {
 		
-		if (lookahead.type().equals(TokenType.String)||lookahead.type().equals(TokenType.Integer)||lookahead.value().equals("(")||lookahead.value().equals("true")||lookahead.type().equals(TokenType.Float)||lookahead.type().equals(TokenType.Identifier)||lookahead.value().equals("false")||lookahead.type().equals(TokenType.LongInteger)) {
+		if (lookahead.type().equals(TokenType.String)||lookahead.value().equals("self")||lookahead.type().equals(TokenType.Integer)||lookahead.value().equals("(")||lookahead.value().equals("true")||lookahead.type().equals(TokenType.LongInteger)||lookahead.type().equals(TokenType.Identifier)||lookahead.value().equals("false")||lookahead.type().equals(TokenType.Float)) {
 			primary();_14_extend();
 		}
 		
@@ -441,7 +449,7 @@ public class Parser {
 	
 	public void a_expr() {
 		
-		if (lookahead.value().equals("-")||lookahead.type().equals(TokenType.String)||lookahead.value().equals("+")||lookahead.value().equals("~")||lookahead.value().equals("(")||lookahead.value().equals("true")||lookahead.type().equals(TokenType.Float)||lookahead.type().equals(TokenType.Identifier)||lookahead.type().equals(TokenType.Integer)||lookahead.value().equals("false")||lookahead.type().equals(TokenType.LongInteger)) {
+		if (lookahead.value().equals("-")||lookahead.type().equals(TokenType.String)||lookahead.value().equals("self")||lookahead.value().equals("+")||lookahead.value().equals("~")||lookahead.value().equals("(")||lookahead.value().equals("true")||lookahead.type().equals(TokenType.LongInteger)||lookahead.type().equals(TokenType.Identifier)||lookahead.type().equals(TokenType.Integer)||lookahead.value().equals("false")||lookahead.type().equals(TokenType.Float)) {
 			m_expr();a_expr_();
 		}
 		
@@ -450,7 +458,7 @@ public class Parser {
 	
 	public void primary_() {
 		
-		if (lookahead.value().equals("-")||lookahead.value().equals(">>")||lookahead.value().equals("+")||lookahead.value().equals("^")||lookahead.value().equals(")")||lookahead.value().equals("&=")||lookahead.value().equals("not")||lookahead.value().equals("in")||lookahead.value().equals("or")||lookahead.type().equals(TokenType.Newline)||lookahead.value().equals("%")||lookahead.value().equals(">")||lookahead.value().equals("<")||lookahead.value().equals("<<")||lookahead.value().equals("{")||lookahead.value().equals("else")||lookahead.value().equals("/")||lookahead.value().equals("|=")||lookahead.value().equals("*")||lookahead.value().equals("if")||lookahead.value().equals("**")||lookahead.value().equals("**=")||lookahead.value().equals("]")||lookahead.value().equals("/=")||lookahead.value().equals("and")||lookahead.value().equals("^=")||lookahead.value().equals(">>=")||lookahead.value().equals("!=")||lookahead.value().equals("&")||lookahead.value().equals("==")||lookahead.value().equals("%=")||lookahead.value().equals("<<=")||lookahead.value().equals("+=")||lookahead.value().equals("*=")||lookahead.value().equals("|")||lookahead.value().equals("=")||lookahead.value().equals("-=")||lookahead.value().equals(">=")||lookahead.value().equals(",")||lookahead.value().equals("is")||lookahead.value().equals("<=")) {
+		if (lookahead.value().equals("-")||lookahead.value().equals(">>")||lookahead.value().equals("+")||lookahead.value().equals("^")||lookahead.value().equals(")")||lookahead.value().equals("&=")||lookahead.value().equals("not")||lookahead.value().equals("|")||lookahead.value().equals("or")||lookahead.type().equals(TokenType.Newline)||lookahead.value().equals("%")||lookahead.value().equals(">")||lookahead.value().equals("<")||lookahead.value().equals("<<")||lookahead.value().equals("{")||lookahead.value().equals("else")||lookahead.value().equals(">>=")||lookahead.value().equals("|=")||lookahead.value().equals("*")||lookahead.value().equals("if")||lookahead.value().equals("**")||lookahead.value().equals("==")||lookahead.value().equals("]")||lookahead.value().equals("/=")||lookahead.value().equals("and")||lookahead.value().equals("^=")||lookahead.value().equals("/")||lookahead.value().equals("!=")||lookahead.value().equals("&")||lookahead.value().equals("**=")||lookahead.value().equals("%=")||lookahead.value().equals("<<=")||lookahead.value().equals("+=")||lookahead.value().equals("*=")||lookahead.value().equals("in")||lookahead.value().equals("=")||lookahead.value().equals("-=")||lookahead.value().equals(">=")||lookahead.value().equals("<=")||lookahead.value().equals("is")||lookahead.value().equals(",")) {
 			
 		}
 		
@@ -510,6 +518,10 @@ public class Parser {
 		
 		else if (lookahead.value().equals("for")) {
 			match("for"); primary();match("in"); expression_list();suite();
+		}
+		
+		else if (lookahead.value().equals("self")) {
+			match("self"); primary_();_14_extend();m_expr_();a_expr_();shift_expr_();and_expr_();xor_expr_();or_expr_();_11_extend();and_test_();or_test_();_10_extend();_9_extend();_6_extend();match(TokenType.Newline); 
 		}
 		
 		else if (lookahead.type().equals(TokenType.Newline)) {
@@ -581,7 +593,7 @@ public class Parser {
 			match("elif"); expression();suite();elif_stmt();
 		}
 		
-		else if (lookahead.value().equals("-")||lookahead.type().equals(TokenType.String)||lookahead.value().equals("+")||lookahead.value().equals("if")||lookahead.value().equals("~")||lookahead.value().equals("(")||lookahead.type().equals(TokenType.EOF)||lookahead.value().equals("true")||lookahead.type().equals(TokenType.LongInteger)||lookahead.value().equals("not")||lookahead.type().equals(TokenType.Identifier)||lookahead.value().equals("continue")||lookahead.value().equals("false")||lookahead.value().equals("for")||lookahead.type().equals(TokenType.Float)||lookahead.value().equals("return")||lookahead.value().equals("while")||lookahead.type().equals(TokenType.Newline)||lookahead.type().equals(TokenType.Integer)||lookahead.value().equals("do")||lookahead.value().equals("}")||lookahead.value().equals("class")||lookahead.value().equals("func")||lookahead.value().equals("else")||lookahead.value().equals("break")) {
+		else if (lookahead.value().equals("-")||lookahead.type().equals(TokenType.String)||lookahead.value().equals("+")||lookahead.value().equals("if")||lookahead.value().equals("~")||lookahead.value().equals("(")||lookahead.type().equals(TokenType.EOF)||lookahead.value().equals("true")||lookahead.type().equals(TokenType.LongInteger)||lookahead.value().equals("not")||lookahead.type().equals(TokenType.Identifier)||lookahead.value().equals("continue")||lookahead.value().equals("false")||lookahead.value().equals("for")||lookahead.type().equals(TokenType.Float)||lookahead.value().equals("return")||lookahead.value().equals("while")||lookahead.value().equals("self")||lookahead.type().equals(TokenType.Newline)||lookahead.type().equals(TokenType.Integer)||lookahead.value().equals("do")||lookahead.value().equals("}")||lookahead.value().equals("class")||lookahead.value().equals("func")||lookahead.value().equals("else")||lookahead.value().equals("break")) {
 			else_stmt();
 		}
 		
@@ -590,7 +602,7 @@ public class Parser {
 	
 	public void and_test() {
 		
-		if (lookahead.value().equals("-")||lookahead.type().equals(TokenType.String)||lookahead.value().equals("+")||lookahead.value().equals("~")||lookahead.value().equals("(")||lookahead.value().equals("true")||lookahead.type().equals(TokenType.Float)||lookahead.value().equals("not")||lookahead.type().equals(TokenType.Identifier)||lookahead.type().equals(TokenType.Integer)||lookahead.value().equals("false")||lookahead.type().equals(TokenType.LongInteger)) {
+		if (lookahead.value().equals("-")||lookahead.type().equals(TokenType.String)||lookahead.value().equals("self")||lookahead.value().equals("+")||lookahead.value().equals("~")||lookahead.value().equals("(")||lookahead.value().equals("true")||lookahead.type().equals(TokenType.LongInteger)||lookahead.value().equals("not")||lookahead.type().equals(TokenType.Identifier)||lookahead.type().equals(TokenType.Integer)||lookahead.value().equals("false")||lookahead.type().equals(TokenType.Float)) {
 			not_test();and_test_();
 		}
 		
@@ -599,7 +611,7 @@ public class Parser {
 	
 	public void _9_extend_() {
 		
-		if (lookahead.value().equals(")")||lookahead.value().equals("]")||lookahead.value().equals("&=")||lookahead.value().equals("/=")||lookahead.value().equals("^=")||lookahead.value().equals("%=")||lookahead.value().equals("**=")||lookahead.value().equals("<<=")||lookahead.type().equals(TokenType.Newline)||lookahead.value().equals("+=")||lookahead.value().equals("*=")||lookahead.value().equals("=")||lookahead.value().equals("-=")||lookahead.value().equals("{")||lookahead.value().equals(">>=")||lookahead.value().equals("|=")) {
+		if (lookahead.value().equals(")")||lookahead.value().equals("]")||lookahead.value().equals("&=")||lookahead.value().equals("/=")||lookahead.value().equals("^=")||lookahead.value().equals(">>=")||lookahead.value().equals("**=")||lookahead.value().equals("<<=")||lookahead.type().equals(TokenType.Newline)||lookahead.value().equals("+=")||lookahead.value().equals("*=")||lookahead.value().equals("=")||lookahead.value().equals("-=")||lookahead.value().equals("{")||lookahead.value().equals("%=")||lookahead.value().equals("|=")) {
 			
 		}
 		
@@ -612,7 +624,7 @@ public class Parser {
 	
 	public void _0_extend() {
 		
-		if (lookahead.value().equals("-")||lookahead.type().equals(TokenType.String)||lookahead.value().equals("+")||lookahead.value().equals("if")||lookahead.value().equals("(")||lookahead.type().equals(TokenType.EOF)||lookahead.value().equals("true")||lookahead.type().equals(TokenType.LongInteger)||lookahead.value().equals("not")||lookahead.type().equals(TokenType.Identifier)||lookahead.value().equals("continue")||lookahead.value().equals("false")||lookahead.value().equals("for")||lookahead.type().equals(TokenType.Float)||lookahead.value().equals("return")||lookahead.value().equals("while")||lookahead.type().equals(TokenType.Newline)||lookahead.type().equals(TokenType.Integer)||lookahead.value().equals("do")||lookahead.value().equals("}")||lookahead.value().equals("class")||lookahead.value().equals("func")||lookahead.value().equals("~")||lookahead.value().equals("break")) {
+		if (lookahead.value().equals("-")||lookahead.type().equals(TokenType.String)||lookahead.value().equals("+")||lookahead.value().equals("if")||lookahead.value().equals("(")||lookahead.type().equals(TokenType.EOF)||lookahead.value().equals("true")||lookahead.type().equals(TokenType.LongInteger)||lookahead.value().equals("not")||lookahead.type().equals(TokenType.Identifier)||lookahead.value().equals("continue")||lookahead.value().equals("false")||lookahead.value().equals("for")||lookahead.type().equals(TokenType.Float)||lookahead.value().equals("return")||lookahead.value().equals("while")||lookahead.value().equals("self")||lookahead.type().equals(TokenType.Newline)||lookahead.type().equals(TokenType.Integer)||lookahead.value().equals("do")||lookahead.value().equals("}")||lookahead.value().equals("class")||lookahead.value().equals("func")||lookahead.value().equals("~")||lookahead.value().equals("break")) {
 			_0_extend_();
 		}
 		
@@ -621,7 +633,7 @@ public class Parser {
 	
 	public void m_expr() {
 		
-		if (lookahead.value().equals("-")||lookahead.type().equals(TokenType.String)||lookahead.value().equals("+")||lookahead.value().equals("~")||lookahead.value().equals("(")||lookahead.value().equals("true")||lookahead.type().equals(TokenType.Float)||lookahead.type().equals(TokenType.Identifier)||lookahead.type().equals(TokenType.Integer)||lookahead.value().equals("false")||lookahead.type().equals(TokenType.LongInteger)) {
+		if (lookahead.value().equals("-")||lookahead.type().equals(TokenType.String)||lookahead.value().equals("self")||lookahead.value().equals("+")||lookahead.value().equals("~")||lookahead.value().equals("(")||lookahead.value().equals("true")||lookahead.type().equals(TokenType.LongInteger)||lookahead.type().equals(TokenType.Identifier)||lookahead.type().equals(TokenType.Integer)||lookahead.value().equals("false")||lookahead.type().equals(TokenType.Float)) {
 			u_expr();m_expr_();
 		}
 		
@@ -643,7 +655,7 @@ public class Parser {
 	
 	public void atom() {
 		
-		if (lookahead.type().equals(TokenType.String)||lookahead.value().equals("false")||lookahead.type().equals(TokenType.Integer)||lookahead.type().equals(TokenType.LongInteger)||lookahead.value().equals("true")||lookahead.type().equals(TokenType.Float)) {
+		if (lookahead.type().equals(TokenType.String)||lookahead.value().equals("self")||lookahead.value().equals("false")||lookahead.type().equals(TokenType.Integer)||lookahead.type().equals(TokenType.LongInteger)||lookahead.value().equals("true")||lookahead.type().equals(TokenType.Float)) {
 			literal();
 		}
 		
@@ -660,7 +672,7 @@ public class Parser {
 	
 	public void xor_expr() {
 		
-		if (lookahead.value().equals("-")||lookahead.type().equals(TokenType.String)||lookahead.value().equals("+")||lookahead.value().equals("~")||lookahead.value().equals("(")||lookahead.value().equals("true")||lookahead.type().equals(TokenType.Float)||lookahead.type().equals(TokenType.Identifier)||lookahead.type().equals(TokenType.Integer)||lookahead.value().equals("false")||lookahead.type().equals(TokenType.LongInteger)) {
+		if (lookahead.value().equals("-")||lookahead.type().equals(TokenType.String)||lookahead.value().equals("self")||lookahead.value().equals("+")||lookahead.value().equals("~")||lookahead.value().equals("(")||lookahead.value().equals("true")||lookahead.type().equals(TokenType.LongInteger)||lookahead.type().equals(TokenType.Identifier)||lookahead.type().equals(TokenType.Integer)||lookahead.value().equals("false")||lookahead.type().equals(TokenType.Float)) {
 			and_expr();xor_expr_();
 		}
 		
@@ -673,7 +685,7 @@ public class Parser {
 			
 		}
 		
-		else if (lookahead.value().equals("-")||lookahead.type().equals(TokenType.String)||lookahead.value().equals("+")||lookahead.value().equals("if")||lookahead.value().equals("(")||lookahead.value().equals("true")||lookahead.type().equals(TokenType.LongInteger)||lookahead.value().equals("not")||lookahead.type().equals(TokenType.Identifier)||lookahead.value().equals("continue")||lookahead.value().equals("false")||lookahead.value().equals("for")||lookahead.type().equals(TokenType.Float)||lookahead.value().equals("return")||lookahead.value().equals("while")||lookahead.type().equals(TokenType.Newline)||lookahead.type().equals(TokenType.Integer)||lookahead.value().equals("do")||lookahead.value().equals("class")||lookahead.value().equals("func")||lookahead.value().equals("~")||lookahead.value().equals("break")) {
+		else if (lookahead.value().equals("-")||lookahead.type().equals(TokenType.String)||lookahead.value().equals("+")||lookahead.value().equals("if")||lookahead.value().equals("(")||lookahead.value().equals("true")||lookahead.type().equals(TokenType.LongInteger)||lookahead.value().equals("not")||lookahead.type().equals(TokenType.Identifier)||lookahead.value().equals("continue")||lookahead.value().equals("false")||lookahead.value().equals("for")||lookahead.type().equals(TokenType.Float)||lookahead.value().equals("return")||lookahead.value().equals("while")||lookahead.value().equals("self")||lookahead.type().equals(TokenType.Newline)||lookahead.type().equals(TokenType.Integer)||lookahead.value().equals("do")||lookahead.value().equals("class")||lookahead.value().equals("func")||lookahead.value().equals("~")||lookahead.value().equals("break")) {
 			_16_extend();_0_extend_();
 		}
 		
@@ -682,7 +694,7 @@ public class Parser {
 	
 	public void comparison() {
 		
-		if (lookahead.value().equals("-")||lookahead.type().equals(TokenType.String)||lookahead.value().equals("+")||lookahead.value().equals("~")||lookahead.value().equals("(")||lookahead.value().equals("true")||lookahead.type().equals(TokenType.Float)||lookahead.type().equals(TokenType.Identifier)||lookahead.type().equals(TokenType.Integer)||lookahead.value().equals("false")||lookahead.type().equals(TokenType.LongInteger)) {
+		if (lookahead.value().equals("-")||lookahead.type().equals(TokenType.String)||lookahead.value().equals("self")||lookahead.value().equals("+")||lookahead.value().equals("~")||lookahead.value().equals("(")||lookahead.value().equals("true")||lookahead.type().equals(TokenType.LongInteger)||lookahead.type().equals(TokenType.Identifier)||lookahead.type().equals(TokenType.Integer)||lookahead.value().equals("false")||lookahead.type().equals(TokenType.Float)) {
 			or_expr();_11_extend();
 		}
 		
@@ -713,7 +725,7 @@ public class Parser {
 			match("%"); u_expr();m_expr_();
 		}
 		
-		else if (lookahead.value().equals("-")||lookahead.value().equals(">>")||lookahead.value().equals("+")||lookahead.value().equals("^")||lookahead.value().equals(")")||lookahead.value().equals("&=")||lookahead.value().equals("not")||lookahead.value().equals("in")||lookahead.value().equals("or")||lookahead.type().equals(TokenType.Newline)||lookahead.value().equals(">")||lookahead.value().equals("<")||lookahead.value().equals("<<")||lookahead.value().equals("{")||lookahead.value().equals("else")||lookahead.value().equals(">>=")||lookahead.value().equals("|=")||lookahead.value().equals("if")||lookahead.value().equals("**=")||lookahead.value().equals("]")||lookahead.value().equals("/=")||lookahead.value().equals("and")||lookahead.value().equals("^=")||lookahead.value().equals("%=")||lookahead.value().equals("!=")||lookahead.value().equals("&")||lookahead.value().equals("==")||lookahead.value().equals("<<=")||lookahead.value().equals("+=")||lookahead.value().equals("*=")||lookahead.value().equals("|")||lookahead.value().equals("=")||lookahead.value().equals("-=")||lookahead.value().equals(">=")||lookahead.value().equals(",")||lookahead.value().equals("is")||lookahead.value().equals("<=")) {
+		else if (lookahead.value().equals("-")||lookahead.value().equals(">>")||lookahead.value().equals("+")||lookahead.value().equals("^")||lookahead.value().equals(")")||lookahead.value().equals("&=")||lookahead.value().equals("not")||lookahead.value().equals("in")||lookahead.value().equals("or")||lookahead.type().equals(TokenType.Newline)||lookahead.value().equals(">")||lookahead.value().equals("<")||lookahead.value().equals("<<")||lookahead.value().equals("{")||lookahead.value().equals("else")||lookahead.value().equals("%=")||lookahead.value().equals("|=")||lookahead.value().equals("if")||lookahead.value().equals("**=")||lookahead.value().equals("]")||lookahead.value().equals("/=")||lookahead.value().equals("and")||lookahead.value().equals("^=")||lookahead.value().equals(">>=")||lookahead.value().equals("!=")||lookahead.value().equals("&")||lookahead.value().equals("==")||lookahead.value().equals("<<=")||lookahead.value().equals("+=")||lookahead.value().equals("*=")||lookahead.value().equals("|")||lookahead.value().equals("=")||lookahead.value().equals("-=")||lookahead.value().equals(">=")||lookahead.value().equals(",")||lookahead.value().equals("is")||lookahead.value().equals("<=")) {
 			
 		}
 		
@@ -730,7 +742,7 @@ public class Parser {
 	
 	public void or_test_() {
 		
-		if (lookahead.value().equals("if")||lookahead.value().equals(")")||lookahead.value().equals("]")||lookahead.value().equals("&=")||lookahead.value().equals("/=")||lookahead.value().equals("^=")||lookahead.value().equals(">>=")||lookahead.value().equals("**=")||lookahead.value().equals("<<=")||lookahead.type().equals(TokenType.Newline)||lookahead.value().equals("+=")||lookahead.value().equals("*=")||lookahead.value().equals("=")||lookahead.value().equals("-=")||lookahead.value().equals("{")||lookahead.value().equals("else")||lookahead.value().equals("%=")||lookahead.value().equals(",")||lookahead.value().equals("|=")) {
+		if (lookahead.value().equals("if")||lookahead.value().equals(")")||lookahead.value().equals("]")||lookahead.value().equals("&=")||lookahead.value().equals("/=")||lookahead.value().equals("^=")||lookahead.value().equals("%=")||lookahead.value().equals("**=")||lookahead.value().equals("<<=")||lookahead.type().equals(TokenType.Newline)||lookahead.value().equals("+=")||lookahead.value().equals("*=")||lookahead.value().equals("=")||lookahead.value().equals("-=")||lookahead.value().equals("{")||lookahead.value().equals("else")||lookahead.value().equals(">>=")||lookahead.value().equals(",")||lookahead.value().equals("|=")) {
 			
 		}
 		
@@ -743,7 +755,7 @@ public class Parser {
 	
 	public void expression_list() {
 		
-		if (lookahead.value().equals("-")||lookahead.type().equals(TokenType.String)||lookahead.value().equals("+")||lookahead.value().equals("~")||lookahead.value().equals("(")||lookahead.value().equals("true")||lookahead.type().equals(TokenType.Float)||lookahead.value().equals("not")||lookahead.type().equals(TokenType.Identifier)||lookahead.type().equals(TokenType.Integer)||lookahead.value().equals("false")||lookahead.type().equals(TokenType.LongInteger)) {
+		if (lookahead.value().equals("-")||lookahead.type().equals(TokenType.String)||lookahead.value().equals("self")||lookahead.value().equals("+")||lookahead.value().equals("~")||lookahead.value().equals("(")||lookahead.value().equals("true")||lookahead.type().equals(TokenType.LongInteger)||lookahead.value().equals("not")||lookahead.type().equals(TokenType.Identifier)||lookahead.type().equals(TokenType.Integer)||lookahead.value().equals("false")||lookahead.type().equals(TokenType.Float)) {
 			expression();_9_extend();
 		}
 		
@@ -752,7 +764,7 @@ public class Parser {
 	
 	public void or_test() {
 		
-		if (lookahead.value().equals("-")||lookahead.type().equals(TokenType.String)||lookahead.value().equals("+")||lookahead.value().equals("~")||lookahead.value().equals("(")||lookahead.value().equals("true")||lookahead.type().equals(TokenType.Float)||lookahead.value().equals("not")||lookahead.type().equals(TokenType.Identifier)||lookahead.type().equals(TokenType.Integer)||lookahead.value().equals("false")||lookahead.type().equals(TokenType.LongInteger)) {
+		if (lookahead.value().equals("-")||lookahead.type().equals(TokenType.String)||lookahead.value().equals("self")||lookahead.value().equals("+")||lookahead.value().equals("~")||lookahead.value().equals("(")||lookahead.value().equals("true")||lookahead.type().equals(TokenType.LongInteger)||lookahead.value().equals("not")||lookahead.type().equals(TokenType.Identifier)||lookahead.type().equals(TokenType.Integer)||lookahead.value().equals("false")||lookahead.type().equals(TokenType.Float)) {
 			and_test();or_test_();
 		}
 		
@@ -818,7 +830,7 @@ public class Parser {
 	
 	public void xor_expr_() {
 		
-		if (lookahead.value().equals(")")||lookahead.value().equals("&=")||lookahead.value().equals("not")||lookahead.value().equals("in")||lookahead.value().equals("or")||lookahead.type().equals(TokenType.Newline)||lookahead.value().equals(">")||lookahead.value().equals("<")||lookahead.value().equals("{")||lookahead.value().equals("else")||lookahead.value().equals("%=")||lookahead.value().equals("|=")||lookahead.value().equals("if")||lookahead.value().equals("**=")||lookahead.value().equals("]")||lookahead.value().equals("/=")||lookahead.value().equals("and")||lookahead.value().equals("^=")||lookahead.value().equals(">>=")||lookahead.value().equals("!=")||lookahead.value().equals("==")||lookahead.value().equals("<<=")||lookahead.value().equals("+=")||lookahead.value().equals("*=")||lookahead.value().equals("|")||lookahead.value().equals("=")||lookahead.value().equals("-=")||lookahead.value().equals(">=")||lookahead.value().equals(",")||lookahead.value().equals("is")||lookahead.value().equals("<=")) {
+		if (lookahead.value().equals(")")||lookahead.value().equals("&=")||lookahead.value().equals("not")||lookahead.value().equals("in")||lookahead.value().equals("or")||lookahead.type().equals(TokenType.Newline)||lookahead.value().equals(">")||lookahead.value().equals("<")||lookahead.value().equals("{")||lookahead.value().equals("else")||lookahead.value().equals(">>=")||lookahead.value().equals("|=")||lookahead.value().equals("if")||lookahead.value().equals("**=")||lookahead.value().equals("]")||lookahead.value().equals("/=")||lookahead.value().equals("and")||lookahead.value().equals("^=")||lookahead.value().equals("%=")||lookahead.value().equals("!=")||lookahead.value().equals("==")||lookahead.value().equals("<<=")||lookahead.value().equals("+=")||lookahead.value().equals("*=")||lookahead.value().equals("|")||lookahead.value().equals("=")||lookahead.value().equals("-=")||lookahead.value().equals(">=")||lookahead.value().equals(",")||lookahead.value().equals("is")||lookahead.value().equals("<=")) {
 			
 		}
 		
@@ -849,7 +861,7 @@ public class Parser {
 	
 	public void statement_list() {
 		
-		if (lookahead.value().equals("-")||lookahead.type().equals(TokenType.String)||lookahead.value().equals("+")||lookahead.value().equals("if")||lookahead.value().equals("(")||lookahead.type().equals(TokenType.EOF)||lookahead.value().equals("true")||lookahead.type().equals(TokenType.LongInteger)||lookahead.value().equals("not")||lookahead.type().equals(TokenType.Identifier)||lookahead.value().equals("continue")||lookahead.value().equals("false")||lookahead.value().equals("for")||lookahead.type().equals(TokenType.Float)||lookahead.value().equals("return")||lookahead.value().equals("while")||lookahead.type().equals(TokenType.Newline)||lookahead.type().equals(TokenType.Integer)||lookahead.value().equals("do")||lookahead.value().equals("}")||lookahead.value().equals("class")||lookahead.value().equals("func")||lookahead.value().equals("~")||lookahead.value().equals("break")) {
+		if (lookahead.value().equals("-")||lookahead.type().equals(TokenType.String)||lookahead.value().equals("+")||lookahead.value().equals("if")||lookahead.value().equals("(")||lookahead.type().equals(TokenType.EOF)||lookahead.value().equals("true")||lookahead.type().equals(TokenType.LongInteger)||lookahead.value().equals("not")||lookahead.type().equals(TokenType.Identifier)||lookahead.value().equals("continue")||lookahead.value().equals("false")||lookahead.value().equals("for")||lookahead.type().equals(TokenType.Float)||lookahead.value().equals("return")||lookahead.value().equals("while")||lookahead.value().equals("self")||lookahead.type().equals(TokenType.Newline)||lookahead.type().equals(TokenType.Integer)||lookahead.value().equals("do")||lookahead.value().equals("}")||lookahead.value().equals("class")||lookahead.value().equals("func")||lookahead.value().equals("~")||lookahead.value().equals("break")) {
 			_0_extend();
 		}
 		
@@ -858,7 +870,7 @@ public class Parser {
 	
 	public void expression() {
 		
-		if (lookahead.value().equals("-")||lookahead.type().equals(TokenType.String)||lookahead.value().equals("+")||lookahead.value().equals("~")||lookahead.value().equals("(")||lookahead.value().equals("true")||lookahead.type().equals(TokenType.Float)||lookahead.value().equals("not")||lookahead.type().equals(TokenType.Identifier)||lookahead.type().equals(TokenType.Integer)||lookahead.value().equals("false")||lookahead.type().equals(TokenType.LongInteger)) {
+		if (lookahead.value().equals("-")||lookahead.type().equals(TokenType.String)||lookahead.value().equals("self")||lookahead.value().equals("+")||lookahead.value().equals("~")||lookahead.value().equals("(")||lookahead.value().equals("true")||lookahead.type().equals(TokenType.LongInteger)||lookahead.value().equals("not")||lookahead.type().equals(TokenType.Identifier)||lookahead.type().equals(TokenType.Integer)||lookahead.value().equals("false")||lookahead.type().equals(TokenType.Float)) {
 			or_test();_10_extend();
 		}
 		

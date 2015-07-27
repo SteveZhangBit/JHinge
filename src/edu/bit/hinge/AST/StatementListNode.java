@@ -2,15 +2,10 @@ package edu.bit.hinge.AST;
 
 import java.util.List;
 
-public class StatementListNode extends AST {
-
-	private List<AST> statementList;
+public class StatementListNode extends ListNode {
 
 	public StatementListNode(List<AST> statementList) {
-		this.statementList = statementList;
+		super(statementList);
 	}
-
-	public List<AST> getStatementList() {
-		return statementList;
-	}
+	
 }
